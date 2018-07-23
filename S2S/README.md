@@ -1,6 +1,6 @@
-Demand API v2 REST
-==================
-**Version:** version not set
+Demand API S2S - REST
+=====================
+**Version:** v2
 
 ### /demand.v2.s2s/offers
 ---
@@ -256,19 +256,19 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 ### Models
 ---
 
-### CancellationInfoParty
+### CancellationInfoParty  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | CancellationInfoParty | string |  |  |
 
-### PublicTransportRouteLegPublicTransportMode
+### PublicTransportRouteLegPublicTransportMode  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | PublicTransportRouteLegPublicTransportMode | string |  |  |
 
-### RideOfferCancellationPolicy
+### RideOfferCancellationPolicy  
 
 - UNKNOWN_CANCEL_POLICY: Unknown cancellation policy
  - ALLOWED: Cancellation by the client is allowed
@@ -280,25 +280,25 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
  - ALLOWED: Cancellation by the client is allowed
  - NOT_ALLOWED: Cancellation by the client is not allowed |  |
 
-### RideOfferTransitType
+### RideOfferTransitType  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | RideOfferTransitType | string |  |  |
 
-### RideQueryRideStatusFilter
+### RideQueryRideStatusFilter  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | RideQueryRideStatusFilter | string |  |  |
 
-### VehicleVehicleType
+### VehicleVehicleType  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | VehicleVehicleType | string |  |  |
 
-### commonAddress
+### commonAddress  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -315,7 +315,7 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | building | string |  | No |
 | line | [ string ] |  | No |
 
-### commonBookingConstraints
+### commonBookingConstraints  
 
 * A structure for defining the number of passengers and special requirements for the ride.
 
@@ -324,7 +324,7 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | passengers_no | long |  | No |
 | suitcases_no | long |  | No |
 
-### commonCancellationInfo
+### commonCancellationInfo  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -333,13 +333,13 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | request_time_ms | string (uint64) |  | No |
 | status | [commonCancellationInfoStatus](#commoncancellationinfostatus) |  | No |
 
-### commonCancellationInfoStatus
+### commonCancellationInfoStatus  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | commonCancellationInfoStatus | string |  |  |
 
-### commonDriverDetails
+### commonDriverDetails  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -348,13 +348,13 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | photo_url | string | A URL pointing to the driver’s photo. This is mandatory in some countries. | No |
 | driving_license_id | string | The driver’s driving license ID. This is mandatory in some countries. | No |
 
-### commonEmpty
+### commonEmpty  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | commonEmpty | object |  |  |
 
-### commonPassengerDetails
+### commonPassengerDetails  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -363,7 +363,7 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | photo_url | string | Optional. A URL pointing to the passenger’s photo. | No |
 | email | string |  | No |
 
-### commonPoint
+### commonPoint  
 
 * A point in the world, expressed as a {latitude, longitude) pair. Latitude values range from -180 to 180.
 
@@ -372,14 +372,14 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | lat | double |  | No |
 | lng | double |  | No |
 
-### commonPrice
+### commonPrice  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | amount | string | The price’s numeric amount in decimal format. For example "12.5", "12", etc. Unsigned. | No |
 | currency_code | string | The price currency. An ISO 4217 Currency Code, for example: "USD", "EUR", "JPY". | No |
 
-### commonPriceEstimate
+### commonPriceEstimate  
 
 * A price estimate for a ride. Contains only one field value: either a fixed price, or a price range.
 
@@ -388,7 +388,7 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | fixed | [commonPrice](#commonprice) |  | No |
 | range | [commonPriceRange](#commonpricerange) |  | No |
 
-### commonPriceRange
+### commonPriceRange  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -396,7 +396,7 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | upper_bound | string | The range’s upper limit, for example: "12.5", "12", etc. Unsigned. | No |
 | currency_code | string |  | No |
 
-### commonPublicTransportRouteLeg
+### commonPublicTransportRouteLeg  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -410,7 +410,7 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | arrival_time_ms | string (uint64) |  | No |
 | operator | string |  | No |
 
-### commonRide
+### commonRide  
 
 * A ride with a specific supplier. This entity contains relatively static info: driver, vehicle, passengers etc.
 The more dynamic info of the ride, including its progress along the route, is in the entity Ride.
@@ -449,7 +449,7 @@ NOTE: Once a ride reaches a terminal state, it cannot transition to any other st
 | price | [commonPrice](#commonprice) | Optional. The price of the ride updated by the supplier. | No |
 | app_id | string | Optional. The ID of the app. | No |
 
-### commonRideLocation
+### commonRideLocation  
 
 * Provides the real-time location and progress of the vehicle. Updated every ~10 seconds.
 
@@ -465,7 +465,7 @@ This field will be deprecated soon, please use estimated_dropoff_time_seconds in
 | estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) | Pickup time estimate sent by the supplier. | No |
 | estimated_dropoff_time_seconds | [protobufUInt32Value](#protobufuint32value) | Drop-off time estimate sent by the supplier or calculated by Marketplace. | No |
 
-### commonRideOffer
+### commonRideOffer  
 
 * An offer for a ride on the given route.
 
@@ -488,7 +488,7 @@ NOTE: This field will be deprecated soon, please use estimated_ride_duration_sec
 | estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) | Optional. Pickup time estimate sent by the supplier. | No |
 | estimated_ride_duration_seconds | [protobufUInt32Value](#protobufuint32value) |  | No |
 
-### commonRideOfferSortType
+### commonRideOfferSortType  
 
 - BY_PRICE: Sort by price (lowest price first)
  - BY_ETA: Sort by arrival time (earliest arrival time first)
@@ -498,19 +498,19 @@ NOTE: This field will be deprecated soon, please use estimated_ride_duration_sec
 | commonRideOfferSortType | string | - BY_PRICE: Sort by price (lowest price first)
  - BY_ETA: Sort by arrival time (earliest arrival time first) |  |
 
-### commonRideOffersResponse
+### commonRideOffersResponse  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | offers | [ [commonRideOffer](#commonrideoffer) ] |  | No |
 
-### commonRidePreferences
+### commonRidePreferences  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | subscribe_to_messages | boolean (boolean) |  | No |
 
-### commonRideQuery
+### commonRideQuery  
 
 * A query for a list of rides matching the query filters. Used as parameter for GetRides(), which supports pagination, sorting and filtering.
 
@@ -550,7 +550,7 @@ This value is in UTC (milliseconds since Epoch time) | No |
 | status_filter | [RideQueryRideStatusFilter](#ridequeryridestatusfilter) | Optional. Return only rides with the given status. When not set, rides with all statuses are returned. | No |
 | sort_by | [commonRideQuerySortType](#commonridequerysorttype) | Optional. Default is UPDATE_TIME_ASC. | No |
 
-### commonRideQueryResponse
+### commonRideQueryResponse  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -561,13 +561,13 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 To get the next page, pass this value to the next call for GetRides() to field RideQuery.from_time_ms
 This value is in UTC, in milliseconds since Epoch time. | No |
 
-### commonRideQuerySortType
+### commonRideQuerySortType  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | commonRideQuerySortType | string |  |  |
 
-### commonRideStatusLog
+### commonRideStatusLog  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -578,7 +578,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | current_status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) |  | No |
 | prev_statuses | [ [commonRideStatusUpdate](#commonridestatusupdate) ] | A list of previous ride statuses, ordered by their timestamp values. | No |
 
-### commonRideStatusUpdate
+### commonRideStatusUpdate  
 
 * A ride status update, and the time it occurred. Used in the status log.
 
@@ -587,7 +587,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) |  | No |
 | timestamp_ms | string (uint64) |  | No |
 
-### commonRideStatusUpdateStatus
+### commonRideStatusUpdateStatus  
 
 - UNKNOWN: Unknown
  - PROCESSING: Looking for a supplier
@@ -615,7 +615,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
  - COMPLETED: Ride finished successfully. Terminal state.
  - CANCELLED: Ride cancelled by supplier or demander. Terminal state. |  |
 
-### commonRideTrackingDetails
+### commonRideTrackingDetails  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -626,14 +626,14 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | supplier | [commonSupplier](#commonsupplier) |  | No |
 | location_and_eta | [commonRideLocation](#commonridelocation) |  | No |
 
-### commonRoute
+### commonRoute  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | pickup | [v2commonLocation](#v2commonlocation) | Mandatory. The route’s pickup location. | No |
 | destination | [v2commonLocation](#v2commonlocation) | Mandatory. The route’s destination location. | No |
 
-### commonSupplier
+### commonSupplier  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -644,7 +644,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | phone_number | string |  | No |
 | address | string |  | No |
 
-### commonTransitOptions
+### commonTransitOptions  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -652,7 +652,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | max_walking_distance_meters | integer | Optional. Specifies a maximum walking distance in meters. Default is 2000. Range is 0-6000. | No |
 | locale | string | Optional. The client's locale. Complies with the ISO 639-1 standard and defaults to en. | No |
 
-### commonVehicle
+### commonVehicle  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -662,7 +662,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | model | string |  | No |
 | color | string |  | No |
 
-### protobufUInt32Value
+### protobufUInt32Value  
 
 Wrapper message for `uint32`.
 
@@ -672,7 +672,7 @@ The JSON representation for `UInt32Value` is JSON number.
 | ---- | ---- | ----------- | -------- |
 | value | long | The uint32 value. | No |
 
-### s2sCancelRideRequest
+### s2sCancelRideRequest  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -680,7 +680,7 @@ The JSON representation for `UInt32Value` is JSON number.
 | user_id | string |  | No |
 | cancel_reason | string | Optional. Free text. The reason for the cancellation. | No |
 
-### s2sCancelTrackedRideRequest
+### s2sCancelTrackedRideRequest  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -688,7 +688,7 @@ The JSON representation for `UInt32Value` is JSON number.
 | passenger_phone | string | Mandatory. the passenger phone for validation purposes. | No |
 | cancel_reason | string | Optional. Free text. The reason for the cancellation. | No |
 
-### s2sCreatePublicTransportRideRequest
+### s2sCreatePublicTransportRideRequest  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -696,7 +696,7 @@ The JSON representation for `UInt32Value` is JSON number.
 | offer_id | string |  | No |
 | passenger | [commonPassengerDetails](#commonpassengerdetails) |  | No |
 
-### s2sCreateRideRequest
+### s2sCreateRideRequest  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -706,10 +706,10 @@ The JSON representation for `UInt32Value` is JSON number.
 | subscribe_to_messages | boolean (boolean) |  | No |
 | preferences | [commonRidePreferences](#commonridepreferences) |  | No |
 
-### v2commonLocation
+### v2commonLocation  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | point | [commonPoint](#commonpoint) |  | No |
 | address | [commonAddress](#commonaddress) | Street address. | No |
-| free_text | string |  | No |%
+| free_text | string |  | No |
