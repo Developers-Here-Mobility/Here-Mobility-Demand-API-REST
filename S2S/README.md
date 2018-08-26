@@ -1,6 +1,6 @@
-Demand API S2S - REST
-=====================
-**Version:** v2
+marketplace/public/grpc/demand_handler/v2/demand_s2s_service.proto-REST
+=======================================================================
+**Version:** version not set
 
 ### /demand.v2.s2s/offers
 ---
@@ -50,8 +50,7 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 | price_range.lower_bound | query | The range’s lower limit, for example: "12.5", "12", etc. Unsigned. | No | string |
 | price_range.upper_bound | query | The range’s upper limit, for example: "12.5", "12", etc. Unsigned. | No | string |
 | price_range.currency_code | query | The price currency. An ISO 4217 Currency Code, for example: "USD", "EUR", "JPY". | No | string |
-| sort_type | query | FUTURE FEATURE, CURRENTLY UNSUPPORTED: Optional. How to sort the RideOffers, by price or by ETA. (The Marketplace default sort order is by best price, and then minimal ETA.).   - BY_PRICE: Sort by price (lowest price first)  - BY_ETA: Sort by arrival time (earliest arrival time first) | No | string |
-| app_id | query | Optional. The ID of the app. | No | string |
+| sort_type | query | FUTURE FEATURE, CURRENTLY UNSUPPORTED: Optional. How to sort the RideOffers, by price or by ETA. (The Marketplace default sort order is by best price, and then minimal ETA.).   - BY_PRICE: Sort by price (lowest price first).  - BY_ETA: Sort by arrival time (earliest arrival time first). | No | string |
 | passenger_note | query | Optional. A free text note from the passenger. | No | string |
 | transit_options.max_transfers | query | Optional. Maximum number of changes or transfers allowed in a route. Default is unlimited. Range is 0-6. | No | integer |
 | transit_options.max_walking_distance_meters | query | Optional. Specifies a maximum walking distance in meters. Default is 2000. Range is 0-6000. | No | integer |
@@ -62,6 +61,27 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 |  | [commonRideOffersResponse](#commonrideoffersresponse) |
+
+### /demand.v2.s2s/offertracker/{offer_tracking_id}
+---
+##### ***GET***
+**Summary:** Returns the offer by offer tracking ID
+Errors:
+INVALID_ARGUMENT - offer tracking id was not supplied
+NOT_FOUND - offer not found for the specified offer tracking ID, or offer tracking ID is invalid
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| offer_tracking_id | path |  | Yes | string |
+| transit_type | query | Mandatory. The transit type of the offer.   - UNKNOWN_TRANSIT_TYPE: Unknown transit type.  - TAXI: Taxi ride  - PUBLIC_TRANSPORT: Public transport ride. | No | string |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 |  | [commonRideOffer](#commonrideoffer) |
 
 ### /demand.v2.s2s/publictransport
 ---
@@ -84,17 +104,17 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 ---
 ##### ***GET***
 **Summary:** * Get rides for all users.
-Returns rides that were updated recently (in the last 3 hours, or after the given from_update_time).
+Returns rides that were updated recently (in the last 3 hours(OnGoing)/180 days(Future)/14 days(Past), or after the given from_update_time).
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| query.from_time_ms | query | Optional. Filters rides according to update or creation time (depending on the sort type). When the sort is UPDATE_TIME_ASC, returns rides UPDATED AFTER this time. When the sort is UPDATE_TIME_DESC, returns rides UPDATED BEFORE this time. When the sort is CREATE_TIME_ASC, returns rides CREATED AFTER this time. When the sort is CREATE_TIME_DESC, return rides CREATED BEFORE this time.  Default value for ascending sort orders is NOW-3 hours. Default value for descending sort orders is NOW. This value is in UTC (milliseconds since Epoch time) | No | string (uint64) |
+| query.from_time_ms | query | Optional. Filters rides according to update or creation time (depending on the sort type). When the sort is UPDATE_TIME_ASC, returns rides UPDATED AFTER this time. When the sort is UPDATE_TIME_DESC, returns rides UPDATED BEFORE this time. When the sort is CREATE_TIME_ASC, returns rides CREATED AFTER this time. When the sort is CREATE_TIME_DESC, return rides CREATED BEFORE this time.  Default value for ascending sort orders is NOW-3 hours, expect for FUTURE or PAST rides. Default value for FUTURE rides is Now-180 days. Default value for PAST rides is NOW-14 days. Default value for descending sort orders is NOW. This value is in UTC (milliseconds since Epoch time). | No | string (uint64) |
 | query.limit | query | Optional. The maximal number of rides to return. When not set, the default is 200. | No | long |
-| query.status_filter | query | Optional. Return only rides with the given status. When not set, rides with all statuses are returned.   - UNKNOWN_RIDE_STATUS_FILTER: Unknown ride status  - PAST: Terminated rides (includes the statuses: COMPLETED, REJECTED or CANCELLED), for the last 72 hours.  - FUTURE: Pre-booked rides in status PROCESSING or ACCEPTED.  - ONGOING: Ongoing rides (all rides other than PAST and FUTURE)  - ALL: All rides | No | string |
-| query.sort_by | query | Optional. Default is UPDATE_TIME_ASC.   - UNKNOWN_SORT_TYPE: Unknown sort order  - UPDATE_TIME_ASC: Ascending order of update time  - UPDATE_TIME_DESC: Descending order of update time  - CREATE_TIME_ASC: Ascending order of creation time  - CREATE_TIME_DESC: Descending order of creation time | No | string |
-| app_id | query | Optional. The ID of the app to get the rides for. | No | string |
+| query.status_filter | query | Optional. Return only rides with the given status. When not set, rides with all statuses are returned.   - UNKNOWN_RIDE_STATUS_FILTER: Unknown ride status.  - PAST: Terminated rides (includes the statuses: COMPLETED, REJECTED or CANCELLED). Default: in the past 14 days.  - FUTURE: Pre-booked rides in status PROCESSING or ACCEPTED. Default: in the past 180 days.  - ONGOING: Ongoing rides (all rides other than PAST and FUTURE). Default: in the past 3 hours.  - ALL: All rides. | No | string |
+| query.sort_by | query | Optional. Default is UPDATE_TIME_ASC.   - UNKNOWN_SORT_TYPE: Unknown sort order.  - UPDATE_TIME_ASC: Ascending order of update time.  - UPDATE_TIME_DESC: Descending order of update time.  - CREATE_TIME_ASC: Ascending order of creation time.  - CREATE_TIME_DESC: Descending order of creation time. | No | string |
+| get_all_apps | query | Optional. Get rides from all applications. | No | boolean (boolean) |
 
 **Responses**
 
@@ -132,11 +152,11 @@ Returns rides that were updated recently (in the last 3 hours, or after the give
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | user_id | path |  | Yes | string |
-| query.from_time_ms | query | Optional. Filters rides according to update or creation time (depending on the sort type). When the sort is UPDATE_TIME_ASC, returns rides UPDATED AFTER this time. When the sort is UPDATE_TIME_DESC, returns rides UPDATED BEFORE this time. When the sort is CREATE_TIME_ASC, returns rides CREATED AFTER this time. When the sort is CREATE_TIME_DESC, return rides CREATED BEFORE this time.  Default value for ascending sort orders is NOW-3 hours. Default value for descending sort orders is NOW. This value is in UTC (milliseconds since Epoch time) | No | string (uint64) |
+| query.from_time_ms | query | Optional. Filters rides according to update or creation time (depending on the sort type). When the sort is UPDATE_TIME_ASC, returns rides UPDATED AFTER this time. When the sort is UPDATE_TIME_DESC, returns rides UPDATED BEFORE this time. When the sort is CREATE_TIME_ASC, returns rides CREATED AFTER this time. When the sort is CREATE_TIME_DESC, return rides CREATED BEFORE this time.  Default value for ascending sort orders is NOW-3 hours, expect for FUTURE or PAST rides. Default value for FUTURE rides is Now-180 days. Default value for PAST rides is NOW-14 days. Default value for descending sort orders is NOW. This value is in UTC (milliseconds since Epoch time). | No | string (uint64) |
 | query.limit | query | Optional. The maximal number of rides to return. When not set, the default is 200. | No | long |
-| query.status_filter | query | Optional. Return only rides with the given status. When not set, rides with all statuses are returned.   - UNKNOWN_RIDE_STATUS_FILTER: Unknown ride status  - PAST: Terminated rides (includes the statuses: COMPLETED, REJECTED or CANCELLED), for the last 72 hours.  - FUTURE: Pre-booked rides in status PROCESSING or ACCEPTED.  - ONGOING: Ongoing rides (all rides other than PAST and FUTURE)  - ALL: All rides | No | string |
-| query.sort_by | query | Optional. Default is UPDATE_TIME_ASC.   - UNKNOWN_SORT_TYPE: Unknown sort order  - UPDATE_TIME_ASC: Ascending order of update time  - UPDATE_TIME_DESC: Descending order of update time  - CREATE_TIME_ASC: Ascending order of creation time  - CREATE_TIME_DESC: Descending order of creation time | No | string |
-| app_id | query | Optional. The ID of the app to get the rides for. | No | string |
+| query.status_filter | query | Optional. Return only rides with the given status. When not set, rides with all statuses are returned.   - UNKNOWN_RIDE_STATUS_FILTER: Unknown ride status.  - PAST: Terminated rides (includes the statuses: COMPLETED, REJECTED or CANCELLED). Default: in the past 14 days.  - FUTURE: Pre-booked rides in status PROCESSING or ACCEPTED. Default: in the past 180 days.  - ONGOING: Ongoing rides (all rides other than PAST and FUTURE). Default: in the past 3 hours.  - ALL: All rides. | No | string |
+| query.sort_by | query | Optional. Default is UPDATE_TIME_ASC.   - UNKNOWN_SORT_TYPE: Unknown sort order.  - UPDATE_TIME_ASC: Ascending order of update time.  - UPDATE_TIME_DESC: Descending order of update time.  - CREATE_TIME_ASC: Ascending order of creation time.  - CREATE_TIME_DESC: Descending order of creation time. | No | string |
+| get_all_apps | query | Optional. Get rides from all applications. | No | boolean (boolean) |
 
 **Responses**
 
@@ -253,164 +273,255 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | ---- | ----------- | ------ |
 | 200 |  | [commonEmpty](#commonempty) |
 
+### /demand.v2.s2s/verticalscoverage
+---
+##### ***GET***
+**Summary:** Returns the verticals in which the point is covered
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| point.lat | query | Latitude. | No | double |
+| point.lng | query | Longitude. | No | double |
+| filter_by_restrictions | query | Optional. Required to filter blacklist/whitelist suppliers. Default - false. | No | boolean (boolean) |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 |  | [commonVerticalsCoverageResponse](#commonverticalscoverageresponse) |
+
 ### Models
 ---
 
-### CancellationInfoParty  
+### CancellationInfoParty
+
+ - UNKNOWN: The cancelling party is unknown.
+ - DEMANDER: The client cancelled the ride.
+ - SUPPLIER: The supplier cancelled the ride.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| CancellationInfoParty | string |  |  |
+| CancellationInfoParty | string |  - UNKNOWN: The cancelling party is unknown.
+ - DEMANDER: The client cancelled the ride.
+ - SUPPLIER: The supplier cancelled the ride. |  |
 
-### PublicTransportRouteLegPublicTransportMode  
+### PublicTransportRouteLegPublicTransportMode
 
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| PublicTransportRouteLegPublicTransportMode | string |  |  |
-
-### RideOfferCancellationPolicy  
-
-- UNKNOWN_CANCEL_POLICY: Unknown cancellation policy
- - ALLOWED: Cancellation by the client is allowed
- - NOT_ALLOWED: Cancellation by the client is not allowed
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| RideOfferCancellationPolicy | string | - UNKNOWN_CANCEL_POLICY: Unknown cancellation policy
- - ALLOWED: Cancellation by the client is allowed
- - NOT_ALLOWED: Cancellation by the client is not allowed |  |
-
-### RideOfferTransitType  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| RideOfferTransitType | string |  |  |
-
-### RideQueryRideStatusFilter  
+ - UNKNOWN_PUBLIC_TRANSPORT_MODE: Unknown.
+ - HIGH_SPEED_TRAIN: High-speed train.
+ - INTERCITY_TRAIN: Intercity/Euro-City train.
+ - INTER_REGIONAL_TRAIN: Inter-regional or fast train.
+ - REGIONAL_TRAIN: Regional train.
+ - CITY_TRAIN: City train.
+ - BUS: Bus.
+ - FERRY: Boat or ferry.
+ - SUBWAY: Subway/metro train.
+ - LIGHT_RAIL: Tram.
+ - PRIVATE_BUS: Privately-ordered bus or taxi.
+ - INCLINED: Inclined tram/funicular.
+ - AERIAL: Cable car.
+ - BUS_RAPID: Rapid bus.
+ - MONORAIL: Monorail.
+ - WALK: Walking.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| RideQueryRideStatusFilter | string |  |  |
+| PublicTransportRouteLegPublicTransportMode | string |  - UNKNOWN_PUBLIC_TRANSPORT_MODE: Unknown.
+ - HIGH_SPEED_TRAIN: High-speed train.
+ - INTERCITY_TRAIN: Intercity/Euro-City train.
+ - INTER_REGIONAL_TRAIN: Inter-regional or fast train.
+ - REGIONAL_TRAIN: Regional train.
+ - CITY_TRAIN: City train.
+ - BUS: Bus.
+ - FERRY: Boat or ferry.
+ - SUBWAY: Subway/metro train.
+ - LIGHT_RAIL: Tram.
+ - PRIVATE_BUS: Privately-ordered bus or taxi.
+ - INCLINED: Inclined tram/funicular.
+ - AERIAL: Cable car.
+ - BUS_RAPID: Rapid bus.
+ - MONORAIL: Monorail.
+ - WALK: Walking. |  |
 
-### VehicleVehicleType  
+### RideOfferCancellationPolicy
+
+- UNKNOWN_CANCEL_POLICY: Unknown cancellation policy.
+ - ALLOWED: Cancellation by the client is allowed.
+ - NOT_ALLOWED: Cancellation by the client is not allowed.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| VehicleVehicleType | string |  |  |
+| RideOfferCancellationPolicy | string | - UNKNOWN_CANCEL_POLICY: Unknown cancellation policy.
+ - ALLOWED: Cancellation by the client is allowed.
+ - NOT_ALLOWED: Cancellation by the client is not allowed. |  |
 
-### commonAddress  
+### RideOfferTransitType
+
+ - UNKNOWN_TRANSIT_TYPE: Unknown transit type.
+ - TAXI: Taxi ride
+ - PUBLIC_TRANSPORT: Public transport ride.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| country | string |  | No |
-| country_code | string |  | No |
-| state | string |  | No |
-| county | string |  | No |
-| city | string |  | No |
-| district | string |  | No |
-| sub_district | string |  | No |
-| street | string |  | No |
-| house_number | string |  | No |
-| postal_code | string |  | No |
-| building | string |  | No |
-| line | [ string ] |  | No |
+| RideOfferTransitType | string |  - UNKNOWN_TRANSIT_TYPE: Unknown transit type.
+ - TAXI: Taxi ride
+ - PUBLIC_TRANSPORT: Public transport ride. |  |
 
-### commonBookingConstraints  
+### RideQueryRideStatusFilter
+
+ - UNKNOWN_RIDE_STATUS_FILTER: Unknown ride status.
+ - PAST: Terminated rides (includes the statuses: COMPLETED, REJECTED or CANCELLED). Default: in the past 14 days.
+ - FUTURE: Pre-booked rides in status PROCESSING or ACCEPTED. Default: in the past 180 days.
+ - ONGOING: Ongoing rides (all rides other than PAST and FUTURE). Default: in the past 3 hours.
+ - ALL: All rides.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| RideQueryRideStatusFilter | string |  - UNKNOWN_RIDE_STATUS_FILTER: Unknown ride status.
+ - PAST: Terminated rides (includes the statuses: COMPLETED, REJECTED or CANCELLED). Default: in the past 14 days.
+ - FUTURE: Pre-booked rides in status PROCESSING or ACCEPTED. Default: in the past 180 days.
+ - ONGOING: Ongoing rides (all rides other than PAST and FUTURE). Default: in the past 3 hours.
+ - ALL: All rides. |  |
+
+### VehicleVehicleType
+
+ - STANDARD: Standard vehicle.
+ - LIMO: Limousine.
+ - VAN: Van.
+ - OTHER: Other vehicle.
+ - NOT_SUPPLIED: Vehicle type not supplied.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| VehicleVehicleType | string |  - STANDARD: Standard vehicle.
+ - LIMO: Limousine.
+ - VAN: Van.
+ - OTHER: Other vehicle.
+ - NOT_SUPPLIED: Vehicle type not supplied. |  |
+
+### commonAddress
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| country | string | Localized country name. | No |
+| country_code | string | ISO 3166-alpha-3 country code. | No |
+| state | string | State (first subdivision level below the country, if relevant). | No |
+| county | string | County (second subdivision level below the country, if relevant). | No |
+| city | string | City/town. | No |
+| district | string | District (subdivision level below the city). | No |
+| sub_district | string | Sub-district (subdivision level below the district; e.g. commonly used in IND). | No |
+| street | string | Street name. | No |
+| house_number | string | House number; depending on regional characteristics, can also be house name. | No |
+| postal_code | string | Postal code (zipcode). | No |
+| building | string | Building name; e.g. commonly used in HKG. | No |
+| line | [ string ] | Formatted address lines. | No |
+
+### commonBookingConstraints
 
 * A structure for defining the number of passengers and special requirements for the ride.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| passengers_no | long |  | No |
-| suitcases_no | long |  | No |
+| passengers_no | long | The number of passengers (1 or more). | No |
+| suitcases_no | long | The number of suitcases (0 or more). | No |
 
-### commonCancellationInfo  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| cancelling_party | [CancellationInfoParty](#cancellationinfoparty) |  | No |
-| cancel_reason | string |  | No |
-| request_time_ms | string (uint64) |  | No |
-| status | [commonCancellationInfoStatus](#commoncancellationinfostatus) |  | No |
-
-### commonCancellationInfoStatus  
+### commonCancellationInfo
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| commonCancellationInfoStatus | string |  |  |
+| cancelling_party | [CancellationInfoParty](#cancellationinfoparty) | Which party canceled the ride. | No |
+| cancel_reason | string | The reason the ride was canceled (a free-text string). | No |
+| request_time_ms | string (uint64) | The time the cancellation was requested. | No |
+| status | [commonCancellationInfoStatus](#commoncancellationinfostatus) | The status of the cancellation request. | No |
 
-### commonDriverDetails  
+### commonCancellationInfoStatus
+
+ - UNKNOWN_STATUS: The cancellation status is unknown.
+ - PROCESSING: The cancellation request is being processed.
+ - ACCEPTED: The cancellation request is accepted.
+ - REJECTED: The cancellation request is rejected.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| name | string |  | No |
-| phone_number | string |  | No |
+| commonCancellationInfoStatus | string |  - UNKNOWN_STATUS: The cancellation status is unknown.
+ - PROCESSING: The cancellation request is being processed.
+ - ACCEPTED: The cancellation request is accepted.
+ - REJECTED: The cancellation request is rejected. |  |
+
+### commonDriverDetails
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| name | string | The driver’s first and last name. | No |
+| phone_number | string | The driver’s telephone number. | No |
 | photo_url | string | A URL pointing to the driver’s photo. This is mandatory in some countries. | No |
 | driving_license_id | string | The driver’s driving license ID. This is mandatory in some countries. | No |
 
-### commonEmpty  
+### commonEmpty
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | commonEmpty | object |  |  |
 
-### commonPassengerDetails  
+### commonPassengerDetails
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| name | string |  | No |
-| phone_number | string |  | No |
+| name | string | Mandatory. The passenger’s first and last name. | No |
+| phone_number | string | The passenger’s telephone number. | No |
 | photo_url | string | Optional. A URL pointing to the passenger’s photo. | No |
-| email | string |  | No |
+| email | string | Optional. The passenger's email address. | No |
 
-### commonPoint  
+### commonPoint
 
 * A point in the world, expressed as a {latitude, longitude) pair. Latitude values range from -180 to 180.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| lat | double |  | No |
-| lng | double |  | No |
+| lat | double | Latitude. | No |
+| lng | double | Longitude. | No |
 
-### commonPrice  
+### commonPrice
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | amount | string | The price’s numeric amount in decimal format. For example "12.5", "12", etc. Unsigned. | No |
 | currency_code | string | The price currency. An ISO 4217 Currency Code, for example: "USD", "EUR", "JPY". | No |
 
-### commonPriceEstimate  
+### commonPriceEstimate
 
 * A price estimate for a ride. Contains only one field value: either a fixed price, or a price range.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| fixed | [commonPrice](#commonprice) |  | No |
-| range | [commonPriceRange](#commonpricerange) |  | No |
+| fixed | [commonPrice](#commonprice) | A single fixed price amount. | No |
+| range | [commonPriceRange](#commonpricerange) | Lower and upper limits of a price range. | No |
 
-### commonPriceRange  
+### commonPriceRange
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | lower_bound | string | The range’s lower limit, for example: "12.5", "12", etc. Unsigned. | No |
 | upper_bound | string | The range’s upper limit, for example: "12.5", "12", etc. Unsigned. | No |
-| currency_code | string |  | No |
+| currency_code | string | The price currency. An ISO 4217 Currency Code, for example: "USD", "EUR", "JPY". | No |
 
-### commonPublicTransportRouteLeg  
+### commonPublicTransportRouteLeg
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| mode | [PublicTransportRouteLegPublicTransportMode](#publictransportroutelegpublictransportmode) |  | No |
-| duration_ms | string (uint64) |  | No |
-| distance_meters | long |  | No |
-| line | string |  | No |
-| origin | [v2commonLocation](#v2commonlocation) |  | No |
-| departure_time_ms | string (uint64) |  | No |
-| destination | [v2commonLocation](#v2commonlocation) |  | No |
-| arrival_time_ms | string (uint64) |  | No |
-| operator | string |  | No |
+| mode | [PublicTransportRouteLegPublicTransportMode](#publictransportroutelegpublictransportmode) | Type of transportation for the leg. | No |
+| duration_ms | string (uint64) | Duration of the leg in milliseconds. | No |
+| distance_meters | long | Distance of the leg in meters. | No |
+| line | string | Name of the line of this public transportation (if relevant). | No |
+| origin | [v2commonLocation](#v2commonlocation) | Origin location of the leg. | No |
+| departure_time_ms | string (uint64) | Time of departure from the start of the leg in milliseconds. | No |
+| destination | [v2commonLocation](#v2commonlocation) | Destination location of the leg. | No |
+| arrival_time_ms | string (uint64) | Time of arrival from the start of the leg in milliseconds. | No |
+| operator | string | Name of the public transportation operator for this leg. | No |
 
-### commonRide  
+### commonRide
 
 * A ride with a specific supplier. This entity contains relatively static info: driver, vehicle, passengers etc.
 The more dynamic info of the ride, including its progress along the route, is in the entity Ride.
@@ -431,25 +542,26 @@ NOTE: Once a ride reaches a terminal state, it cannot transition to any other st
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| user_id | string |  | No |
-| ride_id | string |  | No |
-| route | [commonRoute](#commonroute) |  | No |
+| user_id | string | The ID of the user who created this ride. | No |
+| ride_id | string | A unique ride id. | No |
+| route | [commonRoute](#commonroute) | The ride route. | No |
 | prebook_pickup_time_ms | string (uint64) | Optional. For a pre-booked ride, contains the requested pickup time. | No |
 | booking_estimated_price | [commonPriceEstimate](#commonpriceestimate) | Optional. The estimated price at the time of booking. | No |
 | constraints | [commonBookingConstraints](#commonbookingconstraints) | Constraints defined at the time of booking, such as number of passengers and suitcases. | No |
 | status_log | [commonRideStatusLog](#commonridestatuslog) | The ride’s current status, and status history. | No |
-| supplier | [commonSupplier](#commonsupplier) |  | No |
-| passenger | [commonPassengerDetails](#commonpassengerdetails) |  | No |
+| supplier | [commonSupplier](#commonsupplier) | Supplier details. | No |
+| passenger | [commonPassengerDetails](#commonpassengerdetails) | The passenger details at the time of ride creation. | No |
 | passenger_note | string | Optional. A note added by the passenger at the time of ride creation. Can include additional information about the pickup or other special requests. | No |
 | driver | [commonDriverDetails](#commondriverdetails) | Optional. This field is only filled when the ride status changes to DRIVER_ASSIGNED and after. | No |
 | vehicle | [commonVehicle](#commonvehicle) | Optional. This field is only filled when the ride status changes to DRIVER_ASSIGNED and after. | No |
-| cancellation_policy | [RideOfferCancellationPolicy](#rideoffercancellationpolicy) |  | No |
+| cancellation_policy | [RideOfferCancellationPolicy](#rideoffercancellationpolicy) | The cancellation policy for the ride. | No |
 | cancellation_info | [commonCancellationInfo](#commoncancellationinfo) | Optional. When a cancellation occurs, this field contains information about the cancellation. | No |
-| cancellation_request_received_but_not_allowed | boolean (boolean) |  | No |
+| cancellation_request_received_but_not_allowed | boolean (boolean) | When a cancellation occurs, this field value is TRUE if cancellation isn't allowed. | No |
 | price | [commonPrice](#commonprice) | Optional. The price of the ride updated by the supplier. | No |
 | app_id | string | Optional. The ID of the app. | No |
+| confirmed_pickup_point | [commonPoint](#commonpoint) | Optional. The ride confirmed pickup point calculated by Here-API. | No |
 
-### commonRideLocation  
+### commonRideLocation
 
 * Provides the real-time location and progress of the vehicle. Updated every ~10 seconds.
 
@@ -465,52 +577,55 @@ This field will be deprecated soon, please use estimated_dropoff_time_seconds in
 | estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) | Pickup time estimate sent by the supplier. | No |
 | estimated_dropoff_time_seconds | [protobufUInt32Value](#protobufuint32value) | Drop-off time estimate sent by the supplier or calculated by Marketplace. | No |
 
-### commonRideOffer  
+### commonRideOffer
 
 * An offer for a ride on the given route.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | offer_id | string | A unique offer ID. If this offer is chosen, the client sends this ID when calling CreateRide. | No |
-| supplier | [commonSupplier](#commonsupplier) |  | No |
+| supplier | [commonSupplier](#commonsupplier) | The supplier details. | No |
 | route | [commonRoute](#commonroute) | The ride route that the supplier suggests. | No |
 | estimated_pickup_time_ms | string (uint64) | Optional. Pickup time estimate sent by the supplier.
 NOTE: This field will be deprecated soon, please use estimated_pickup_time_seconds instead. | No |
 | estimated_dropoff_time_ms | string (uint64) | Optional. Drop-off time estimate sent by the supplier.
 NOTE: This field will be deprecated soon, please use estimated_ride_duration_seconds instead. | No |
-| price_estimation | [commonPriceEstimate](#commonpriceestimate) |  | No |
-| offer_expiration_time_ms | string (uint64) |  | No |
-| cancellation_policy | [RideOfferCancellationPolicy](#rideoffercancellationpolicy) |  | No |
-| duration_ms | string (uint64) |  | No |
-| transfers | long |  | No |
-| legs | [ [commonPublicTransportRouteLeg](#commonpublictransportrouteleg) ] |  | No |
-| transit_type | [RideOfferTransitType](#rideoffertransittype) |  | No |
+| price_estimation | [commonPriceEstimate](#commonpriceestimate) | Optional. A price estimate for the ride. | No |
+| offer_expiration_time_ms | string (uint64) | The offer expiration time (in milliseconds from the time the offer is sent). | No |
+| cancellation_policy | [RideOfferCancellationPolicy](#rideoffercancellationpolicy) | The cancellation policy of the supplier (cancellation allowed or not allowed). | No |
+| duration_ms | string (uint64) | Duration of the route in milliseconds.
+NOTE: this field will be deprecated soon. Please use duration_seconds instead. | No |
+| transfers | long | Number of transport changes to reach the destination. | No |
+| legs | [ [commonPublicTransportRouteLeg](#commonpublictransportrouteleg) ] | A list of transportation legs for the route, if this offer is a public transportation offer. | No |
+| transit_type | [RideOfferTransitType](#rideoffertransittype) | Specifies the transit type of this offer. | No |
 | estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) | Optional. Pickup time estimate sent by the supplier. | No |
-| estimated_ride_duration_seconds | [protobufUInt32Value](#protobufuint32value) |  | No |
+| estimated_ride_duration_seconds | [protobufUInt32Value](#protobufuint32value) | Optional. Drop-off time estimate sent by the supplier or calculated by Marketplace.
+This is the time between pickup to dropoff. It does not contain the time to pickup. | No |
+| duration_seconds | string (uint64) | Duration of the route in seconds. | No |
 
-### commonRideOfferSortType  
+### commonRideOfferSortType
 
-- BY_PRICE: Sort by price (lowest price first)
- - BY_ETA: Sort by arrival time (earliest arrival time first)
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| commonRideOfferSortType | string | - BY_PRICE: Sort by price (lowest price first)
- - BY_ETA: Sort by arrival time (earliest arrival time first) |  |
-
-### commonRideOffersResponse  
+- BY_PRICE: Sort by price (lowest price first).
+ - BY_ETA: Sort by arrival time (earliest arrival time first).
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| offers | [ [commonRideOffer](#commonrideoffer) ] |  | No |
+| commonRideOfferSortType | string | - BY_PRICE: Sort by price (lowest price first).
+ - BY_ETA: Sort by arrival time (earliest arrival time first). |  |
 
-### commonRidePreferences  
+### commonRideOffersResponse
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| subscribe_to_messages | boolean (boolean) |  | No |
+| offers | [ [commonRideOffer](#commonrideoffer) ] | A list of ride offers. | No |
 
-### commonRideQuery  
+### commonRidePreferences
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| subscribe_to_messages | boolean (boolean) | Optional. Specifies if messages about the ride will be sent to the passenger. Default is false. | No |
+
+### commonRideQuery
 
 * A query for a list of rides matching the query filters. Used as parameter for GetRides(), which supports pagination, sorting and filtering.
 
@@ -543,108 +658,123 @@ When the sort is UPDATE_TIME_DESC, returns rides UPDATED BEFORE this time.
 When the sort is CREATE_TIME_ASC, returns rides CREATED AFTER this time.
 When the sort is CREATE_TIME_DESC, return rides CREATED BEFORE this time.
 
-Default value for ascending sort orders is NOW-3 hours.
+Default value for ascending sort orders is NOW-3 hours, expect for FUTURE or PAST rides.
+Default value for FUTURE rides is Now-180 days.
+Default value for PAST rides is NOW-14 days.
 Default value for descending sort orders is NOW.
-This value is in UTC (milliseconds since Epoch time) | No |
+This value is in UTC (milliseconds since Epoch time). | No |
 | limit | long | Optional. The maximal number of rides to return. When not set, the default is 200. | No |
 | status_filter | [RideQueryRideStatusFilter](#ridequeryridestatusfilter) | Optional. Return only rides with the given status. When not set, rides with all statuses are returned. | No |
 | sort_by | [commonRideQuerySortType](#commonridequerysorttype) | Optional. Default is UPDATE_TIME_ASC. | No |
 
-### commonRideQueryResponse  
+### commonRideQueryResponse
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| rides | [ [commonRide](#commonride) ] |  | No |
+| rides | [ [commonRide](#commonride) ] | The list of rides that matched the query. | No |
 | from_time_ms | string (uint64) | The earliest update time in this result set. The lowest possible value is current time minus 3 hours.
 This value is in UTC, in milliseconds since Epoch time. | No |
 | to_time_ms | string (uint64) | A time "cursor" for pagination. Contains the last time in the result set, ordered by the sort type.
 To get the next page, pass this value to the next call for GetRides() to field RideQuery.from_time_ms
 This value is in UTC, in milliseconds since Epoch time. | No |
 
-### commonRideQuerySortType  
+### commonRideQuerySortType
+
+ - UNKNOWN_SORT_TYPE: Unknown sort order.
+ - UPDATE_TIME_ASC: Ascending order of update time.
+ - UPDATE_TIME_DESC: Descending order of update time.
+ - CREATE_TIME_ASC: Ascending order of creation time.
+ - CREATE_TIME_DESC: Descending order of creation time.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| commonRideQuerySortType | string |  |  |
+| commonRideQuerySortType | string |  - UNKNOWN_SORT_TYPE: Unknown sort order.
+ - UPDATE_TIME_ASC: Ascending order of update time.
+ - UPDATE_TIME_DESC: Descending order of update time.
+ - CREATE_TIME_ASC: Ascending order of creation time.
+ - CREATE_TIME_DESC: Descending order of creation time. |  |
 
-### commonRideStatusLog  
+### commonRideStatusLog
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | last_update_time_ms | string (uint64) | The last time this entity was updated. Used for tracking updates. | No |
 | create_time_ms | string (uint64) | The time the booking was created. | No |
 | closed_time_ms | string (uint64) | Optional. If relevant, the time the ride was closed (reached a terminal state). | No |
-| is_ride_location_available | boolean (boolean) |  | No |
-| current_status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) |  | No |
+| is_ride_location_available | boolean (boolean) | If this value is TRUE, you can retrieve live updates on the ride’s location by calling GetRideLocation (during statuses DRIVER_ASSIGNED to COMPLETED). | No |
+| current_status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) | The ride’s current status. | No |
 | prev_statuses | [ [commonRideStatusUpdate](#commonridestatusupdate) ] | A list of previous ride statuses, ordered by their timestamp values. | No |
 
-### commonRideStatusUpdate  
+### commonRideStatusUpdate
 
 * A ride status update, and the time it occurred. Used in the status log.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) |  | No |
-| timestamp_ms | string (uint64) |  | No |
+| status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) | The new ride status. | No |
+| timestamp_ms | string (uint64) | The time the ride status changed (UNIX Epoch time in milliseconds). | No |
 
-### commonRideStatusUpdateStatus  
+### commonRideStatusUpdateStatus
 
-- UNKNOWN: Unknown
- - PROCESSING: Looking for a supplier
+- UNKNOWN: Unknown.
+ - PROCESSING: Looking for a supplier.
  - REJECTED: The supplier cannot fulfill the request. Terminal state.
  - ACCEPTED: A supplier accepted the ride, but a driver is not yet assigned. For a pre-booked ride, this state may last a long while.
  - DRIVER_ASSIGNED: Driver and vehicle are assigned to the ride.
  - DRIVER_EN_ROUTE: Vehicle on its way to pickup.
- - AT_PICKUP: Vehicle at pickup
+ - AT_PICKUP: Vehicle at pickup.
  - PASSENGER_ON_BOARD: Vehicle on the way, and passenger on board.
  - AT_DROPOFF: Vehicle arrived at drop-off.
  - COMPLETED: Ride finished successfully. Terminal state.
  - CANCELLED: Ride cancelled by supplier or demander. Terminal state.
+ - FAILURE: Ride closed after a duration with no updates.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| commonRideStatusUpdateStatus | string | - UNKNOWN: Unknown
- - PROCESSING: Looking for a supplier
+| commonRideStatusUpdateStatus | string | - UNKNOWN: Unknown.
+ - PROCESSING: Looking for a supplier.
  - REJECTED: The supplier cannot fulfill the request. Terminal state.
  - ACCEPTED: A supplier accepted the ride, but a driver is not yet assigned. For a pre-booked ride, this state may last a long while.
  - DRIVER_ASSIGNED: Driver and vehicle are assigned to the ride.
  - DRIVER_EN_ROUTE: Vehicle on its way to pickup.
- - AT_PICKUP: Vehicle at pickup
+ - AT_PICKUP: Vehicle at pickup.
  - PASSENGER_ON_BOARD: Vehicle on the way, and passenger on board.
  - AT_DROPOFF: Vehicle arrived at drop-off.
  - COMPLETED: Ride finished successfully. Terminal state.
- - CANCELLED: Ride cancelled by supplier or demander. Terminal state. |  |
+ - CANCELLED: Ride cancelled by supplier or demander. Terminal state.
+ - FAILURE: Ride closed after a duration with no updates. |  |
 
-### commonRideTrackingDetails  
+### commonRideTrackingDetails
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| ride_tracking_id | string |  | No |
-| status_log | [commonRideStatusLog](#commonridestatuslog) |  | No |
-| driver | [commonDriverDetails](#commondriverdetails) |  | No |
-| vehicle | [commonVehicle](#commonvehicle) |  | No |
-| supplier | [commonSupplier](#commonsupplier) |  | No |
-| location_and_eta | [commonRideLocation](#commonridelocation) |  | No |
+| ride_tracking_id | string | The ride tracking ID. | No |
+| status_log | [commonRideStatusLog](#commonridestatuslog) | The tracked ride ride status log. | No |
+| driver | [commonDriverDetails](#commondriverdetails) | The ride's driver details. | No |
+| vehicle | [commonVehicle](#commonvehicle) | The ride's vehicle details. | No |
+| supplier | [commonSupplier](#commonsupplier) | The ride's supplier details. | No |
+| location_and_eta | [commonRideLocation](#commonridelocation) | The ride's location and ETA. | No |
+| cancellation_info | [commonCancellationInfo](#commoncancellationinfo) | When cancellation occurs, this field contains information about the cancellation. | No |
 
-### commonRoute  
+### commonRoute
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | pickup | [v2commonLocation](#v2commonlocation) | Mandatory. The route’s pickup location. | No |
 | destination | [v2commonLocation](#v2commonlocation) | Mandatory. The route’s destination location. | No |
 
-### commonSupplier  
+### commonSupplier
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| supplier_id | string |  | No |
-| english_name | string |  | No |
-| local_name | string |  | No |
-| logo_url | string |  | No |
-| phone_number | string |  | No |
-| address | string |  | No |
+| supplier_id | string | A unique supplier ID. | No |
+| english_name | string | The name of the supplier, in English. | No |
+| local_name | string | Optional. The name of the supplier in the local language. | No |
+| logo_url | string | Optional. A URL pointing to a logo image for the supplier. | No |
+| phone_number | string | The supplier’s telephone number. | No |
+| address | string | The supplier’s address. | No |
 
-### commonTransitOptions  
+### commonTransitOptions
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -652,17 +782,23 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | max_walking_distance_meters | integer | Optional. Specifies a maximum walking distance in meters. Default is 2000. Range is 0-6000. | No |
 | locale | string | Optional. The client's locale. Complies with the ISO 639-1 standard and defaults to en. | No |
 
-### commonVehicle  
+### commonVehicle
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| license_plate_number | string |  | No |
-| vehicle_type | [VehicleVehicleType](#vehiclevehicletype) |  | No |
-| make | string |  | No |
-| model | string |  | No |
-| color | string |  | No |
+| license_plate_number | string | The vehicle’s license plate number. | No |
+| vehicle_type | [VehicleVehicleType](#vehiclevehicletype) | The vehicle type (standard, limo, van). | No |
+| make | string | The vehicle make. | No |
+| model | string | The vehicle model. | No |
+| color | string | The vehicle color. | No |
 
-### protobufUInt32Value  
+### commonVerticalsCoverageResponse
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| verticals | [ [RideOfferTransitType](#rideoffertransittype) ] |  | No |
+
+### protobufUInt32Value
 
 Wrapper message for `uint32`.
 
@@ -672,15 +808,15 @@ The JSON representation for `UInt32Value` is JSON number.
 | ---- | ---- | ----------- | -------- |
 | value | long | The uint32 value. | No |
 
-### s2sCancelRideRequest  
+### s2sCancelRideRequest
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| ride_id | string |  | No |
-| user_id | string |  | No |
+| ride_id | string | Mandatory. The unique ride ID. | No |
+| user_id | string | Optional. The ID of the requesting user. | No |
 | cancel_reason | string | Optional. Free text. The reason for the cancellation. | No |
 
-### s2sCancelTrackedRideRequest  
+### s2sCancelTrackedRideRequest
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -688,28 +824,30 @@ The JSON representation for `UInt32Value` is JSON number.
 | passenger_phone | string | Mandatory. the passenger phone for validation purposes. | No |
 | cancel_reason | string | Optional. Free text. The reason for the cancellation. | No |
 
-### s2sCreatePublicTransportRideRequest  
+### s2sCreatePublicTransportRideRequest
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| user_id | string |  | No |
-| offer_id | string |  | No |
-| passenger | [commonPassengerDetails](#commonpassengerdetails) |  | No |
+| user_id | string | Mandatory. The user ID for which the ride is created. | No |
+| offer_id | string | Mandatory. An offer ID that was returned by GetRideOffers(). | No |
+| passenger | [commonPassengerDetails](#commonpassengerdetails) | Mandatory. The passenger details at the time of booking. | No |
+| preferences | [commonRidePreferences](#commonridepreferences) | Optional. Preferences for the ride
+NOTE: this field is not yet supported. | No |
 
-### s2sCreateRideRequest  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| user_id | string |  | No |
-| offer_id | string |  | No |
-| passenger | [commonPassengerDetails](#commonpassengerdetails) |  | No |
-| subscribe_to_messages | boolean (boolean) |  | No |
-| preferences | [commonRidePreferences](#commonridepreferences) |  | No |
-
-### v2commonLocation  
+### s2sCreateRideRequest
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| point | [commonPoint](#commonpoint) |  | No |
+| user_id | string | Mandatory. The user ID for which the ride is created. | No |
+| offer_id | string | Mandatory. An offer ID that was returned by GetRideOffers(). | No |
+| passenger | [commonPassengerDetails](#commonpassengerdetails) | Mandatory. The passenger details at the time of booking. | No |
+| subscribe_to_messages | boolean (boolean) | DEPRECATED. Please use the RidePreferences object to specify messaging preferences. | No |
+| preferences | [commonRidePreferences](#commonridepreferences) | Optional. Preferences for the ride. | No |
+
+### v2commonLocation
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| point | [commonPoint](#commonpoint) | Geo-location (latitude and longitude). | No |
 | address | [commonAddress](#commonaddress) | Street address. | No |
-| free_text | string |  | No |
+| free_text | string | Place name or street address in a free text format. | No |
