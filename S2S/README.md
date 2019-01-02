@@ -28,7 +28,9 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 | route.pickup.address.postal_code | query | Postal code (zipcode). | No | string |
 | route.pickup.address.building | query | Building name; e.g. commonly used in HKG. | No | string |
 | route.pickup.address.line | query | Formatted address lines. | No | [ string ] |
-| route.pickup.free_text | query | Place name or street address in a free text format. | No | string |
+| route.pickup.free_text | query | Optional. Street address in a free text format. | No | string |
+| route.pickup.place.name | query | The place name. | No | string |
+| route.pickup.place.category | query | The place category (e.g.: Airport, Restaurant, Park, etc.).   - RESTAURANT: An establishment that prepares and serves refreshments and prepared meals.  - COFFEE_TEA: An establishment that sells drinks, such as coffee and tea, as well as refreshments.  - NIGHTLIFE: An establishment that provides evening entertainment and usually serves alcoholic beverages.  - CINEMA: An establishment that shows movies through screen projection.  - CULTURE: An establishment where various types of performing arts are presented.  - GAMBLING_LOTTERY: An establishment that provides gambling entertainment.  - ATTRACTION: A designated area of special interest to tourists.  - MUSEUM: An establishment dedicated to the preservation and exhibition of artistic, historical, or scientific artifacts.  - RELIGIOUS_PLACE: An establishment of special religious significance or where religious services are held.  - WATER: A natural and geographical feature of the earth's surface that is covered with water, such as a lake, river, stream or ocean.  - MOUNTAIN: A natural and geographical feature that is higher than the surrounding land.  - UNDERSEA: Undersea attractions  - FOREST: A forest, heath or other vegetation  - GEOGRAPHICAL: Natural and geographical locations  - AIRPORT: A designated area that serves various aspects of aviation related sports, including gliders, recreational aircraft and model airplanes.  - PUBLIC_TRANSPORTATION: A facility for travelers who are travelling between stops on public transport.  - CARGO_TRANSPORTATION: A facility that handles some aspect of the transportation of cargo freight.  - REST_AREA: An establishment along a motorway (controlled access road) that provides restrooms and parking.  - HOTEL: A business that provides lodging or temporary living quarters.  - LODGE: A business that provides lodging to the public generally without room service.  - OUTDOORS: Public land preserved and maintained for recreational use.  - LEISURE: A park that contains rides and/or other entertainment which may be based on a central theme.  - CONVENIENCE_STORE: An establishment that sells groceries, candy, toiletries, soft drinks, tobacco products, newspapers and other products.  - SHOPPING_CENTER: A complex of businesses that are co-located and share common services.  - DEPARTMENT_STORE: A business that sells a wide variety of merchandise that is organized by product or service departments.  - FOOD_AND_DRINKS: A business that sells specialty products of a particular type of food or beverage.  - PHARMACY: A business that sells medications, toiletry items and other retail cosmetics.  - ELECTRONICS: A business that sells consumer electronics and electronic entertainment equipment.  - HARDWARE_HOUSE_GARDEN: A business that sells crafts, gardening, remodeling, or decorating items for the home.  - BOOKSTORE: A business that sells books, magazines and other reading material.  - CLOTHING_AND_ACCESSORIES: A business that sells apparel items, garments or fashion accessories for men, women, and children.  - STORE: A business that sells a variety of products targeted to consumers.  - HAIR_BEAUTY: A business that provides hair styling and personal appearance services. Places in this category may also sell hair products and other related cosmetic items.  - BANKING: Businesses that specialize in the maintenance, lending, exchange, or issuance of money.  - ATM: A computer terminal that allows bank customers to deposit, withdraw, or transfer funds without the assistance of a bank teller.  - MONEY_SERVICES: Businesses that provide money related services.  - MEDIA: Businesses that provide communication services.  - COMMERCIAL_SERVICES: Businesses that provide a service or product for use by other businesses.  - BUSINESS_INDUSTRY: Businesses that employ people in and around the city in which it is located.  - EMERGANCY_SERVICES: Municipal emergency services  - CONSUMER_SERVICES: An organization that provides consumer services for a variety of products for used by the public.  - POST_OFFICE: An office or station that receives, sorts, dispatches and delivers mail to a specific area or region.  - TOOURIST_INFORMATION: Businesses that provide a variety of information for visiting tourists, such as event schedules, lodging/accommodations, restaurants, attractions and more  - FEUL_STATION: Businesses that sell fuel for vehicles  - CAR_DEALER: Businesses that sell new automobiles and motorcycles.  - CAR_REPAIR: Businesses that provide automotive repair services.  - CAR_RENTAL: Businesses that rent or lease automobiles.  - TRUCK_SERVICES: Business that sell or service trucks and tractor trailers.  - HEALTH_CARE: Facilities that include dental offices, hospitals, nursing homes and other health care-related services.  - GOVERNMENT: A Place where government services are provided.  - EDUCATION: Facilities that are used for educational purposes including primary schooling, secondary schooling, universities and more.  - LIBRARY: Facilities that offer books, periodicals, audio, video and other material for public use.  - EVENTS: An area or facility used for the hosting of fairs and conventions.  - PARKING: Area or building used for parking cars  - SPORTS: A facility used for individual and team sports including recreational sports.  - FACILITIES: Facilities with miscellaneous uses such as Clubhouses, Offices, and Registration Offices.  - CITY: Represents a named settlement that may be a (large) city, town, or tiny village  - OUTDOORS_COMPLEX: Outdoor areas or complexes with designations for specific businesses or interests.  - BUILDING: Areas and buildings designated for residential or office use  - ADMINISTRATIVE_REGION: An administrative region, such as a postal area, or a named street/square/intersection. | No | string |
 | route.destination.point.lat | query | Latitude. | No | double |
 | route.destination.point.lng | query | Longitude. | No | double |
 | route.destination.address.country | query | Localized country name. | No | string |
@@ -43,10 +45,12 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 | route.destination.address.postal_code | query | Postal code (zipcode). | No | string |
 | route.destination.address.building | query | Building name; e.g. commonly used in HKG. | No | string |
 | route.destination.address.line | query | Formatted address lines. | No | [ string ] |
-| route.destination.free_text | query | Place name or street address in a free text format. | No | string |
+| route.destination.free_text | query | Optional. Street address in a free text format. | No | string |
+| route.destination.place.name | query | The place name. | No | string |
+| route.destination.place.category | query | The place category (e.g.: Airport, Restaurant, Park, etc.).   - RESTAURANT: An establishment that prepares and serves refreshments and prepared meals.  - COFFEE_TEA: An establishment that sells drinks, such as coffee and tea, as well as refreshments.  - NIGHTLIFE: An establishment that provides evening entertainment and usually serves alcoholic beverages.  - CINEMA: An establishment that shows movies through screen projection.  - CULTURE: An establishment where various types of performing arts are presented.  - GAMBLING_LOTTERY: An establishment that provides gambling entertainment.  - ATTRACTION: A designated area of special interest to tourists.  - MUSEUM: An establishment dedicated to the preservation and exhibition of artistic, historical, or scientific artifacts.  - RELIGIOUS_PLACE: An establishment of special religious significance or where religious services are held.  - WATER: A natural and geographical feature of the earth's surface that is covered with water, such as a lake, river, stream or ocean.  - MOUNTAIN: A natural and geographical feature that is higher than the surrounding land.  - UNDERSEA: Undersea attractions  - FOREST: A forest, heath or other vegetation  - GEOGRAPHICAL: Natural and geographical locations  - AIRPORT: A designated area that serves various aspects of aviation related sports, including gliders, recreational aircraft and model airplanes.  - PUBLIC_TRANSPORTATION: A facility for travelers who are travelling between stops on public transport.  - CARGO_TRANSPORTATION: A facility that handles some aspect of the transportation of cargo freight.  - REST_AREA: An establishment along a motorway (controlled access road) that provides restrooms and parking.  - HOTEL: A business that provides lodging or temporary living quarters.  - LODGE: A business that provides lodging to the public generally without room service.  - OUTDOORS: Public land preserved and maintained for recreational use.  - LEISURE: A park that contains rides and/or other entertainment which may be based on a central theme.  - CONVENIENCE_STORE: An establishment that sells groceries, candy, toiletries, soft drinks, tobacco products, newspapers and other products.  - SHOPPING_CENTER: A complex of businesses that are co-located and share common services.  - DEPARTMENT_STORE: A business that sells a wide variety of merchandise that is organized by product or service departments.  - FOOD_AND_DRINKS: A business that sells specialty products of a particular type of food or beverage.  - PHARMACY: A business that sells medications, toiletry items and other retail cosmetics.  - ELECTRONICS: A business that sells consumer electronics and electronic entertainment equipment.  - HARDWARE_HOUSE_GARDEN: A business that sells crafts, gardening, remodeling, or decorating items for the home.  - BOOKSTORE: A business that sells books, magazines and other reading material.  - CLOTHING_AND_ACCESSORIES: A business that sells apparel items, garments or fashion accessories for men, women, and children.  - STORE: A business that sells a variety of products targeted to consumers.  - HAIR_BEAUTY: A business that provides hair styling and personal appearance services. Places in this category may also sell hair products and other related cosmetic items.  - BANKING: Businesses that specialize in the maintenance, lending, exchange, or issuance of money.  - ATM: A computer terminal that allows bank customers to deposit, withdraw, or transfer funds without the assistance of a bank teller.  - MONEY_SERVICES: Businesses that provide money related services.  - MEDIA: Businesses that provide communication services.  - COMMERCIAL_SERVICES: Businesses that provide a service or product for use by other businesses.  - BUSINESS_INDUSTRY: Businesses that employ people in and around the city in which it is located.  - EMERGANCY_SERVICES: Municipal emergency services  - CONSUMER_SERVICES: An organization that provides consumer services for a variety of products for used by the public.  - POST_OFFICE: An office or station that receives, sorts, dispatches and delivers mail to a specific area or region.  - TOOURIST_INFORMATION: Businesses that provide a variety of information for visiting tourists, such as event schedules, lodging/accommodations, restaurants, attractions and more  - FEUL_STATION: Businesses that sell fuel for vehicles  - CAR_DEALER: Businesses that sell new automobiles and motorcycles.  - CAR_REPAIR: Businesses that provide automotive repair services.  - CAR_RENTAL: Businesses that rent or lease automobiles.  - TRUCK_SERVICES: Business that sell or service trucks and tractor trailers.  - HEALTH_CARE: Facilities that include dental offices, hospitals, nursing homes and other health care-related services.  - GOVERNMENT: A Place where government services are provided.  - EDUCATION: Facilities that are used for educational purposes including primary schooling, secondary schooling, universities and more.  - LIBRARY: Facilities that offer books, periodicals, audio, video and other material for public use.  - EVENTS: An area or facility used for the hosting of fairs and conventions.  - PARKING: Area or building used for parking cars  - SPORTS: A facility used for individual and team sports including recreational sports.  - FACILITIES: Facilities with miscellaneous uses such as Clubhouses, Offices, and Registration Offices.  - CITY: Represents a named settlement that may be a (large) city, town, or tiny village  - OUTDOORS_COMPLEX: Outdoor areas or complexes with designations for specific businesses or interests.  - BUILDING: Areas and buildings designated for residential or office use  - ADMINISTRATIVE_REGION: An administrative region, such as a postal area, or a named street/square/intersection. | No | string |
 | constraints.passengers_no | query | The number of passengers (1 or more). | No | long |
 | constraints.suitcases_no | query | The number of suitcases (0 or more). | No | long |
-| prebook_pickup_time_ms | query | Optional. A future pickup time, which is at least 30 minutes after the request time. An empty value indicates a request for an immediate ride. | No | string (uint64) |
+| prebook_pickup_time_ms | query | Optional. For taxi rides, this should be a future pickup time, which is at least 30 minutes after the request time. For public transport rides this can be any pickup time that is not in the past. In all cases, an empty value indicates a request for an immediate ride. | No | string (uint64) |
 | price_range.lower_bound | query | The range’s lower limit, for example: "12.5", "12", etc. Unsigned. | No | string |
 | price_range.upper_bound | query | The range’s upper limit, for example: "12.5", "12", etc. Unsigned. | No | string |
 | price_range.currency_code | query | The price currency. An ISO 4217 Currency Code, for example: "USD", "EUR", "JPY". | No | string |
@@ -55,6 +59,9 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 | transit_options.max_transfers | query | Optional. Maximum number of changes or transfers allowed in a route. Default is unlimited. Range is 0-6. | No | integer |
 | transit_options.max_walking_distance_meters | query | Optional. Specifies a maximum walking distance in meters. Default is 2000. Range is 0-6000. | No | integer |
 | transit_options.locale | query | Optional. The client's locale. Complies with the ISO 639-1 standard and defaults to en. | No | string |
+| payment_constraints | query | Optional. Parameters for supported payment flows. Defualt is SUPPORTS_OFFLINE. | No | string |
+| transport_type_preference.use_taxi | query |  | No | boolean (boolean) |
+| transport_type_preference.use_public_transport | query |  | No | boolean (boolean) |
 
 **Responses**
 
@@ -229,6 +236,24 @@ NOT_FOUND: Ride does not exist
 | ---- | ----------- | ------ |
 | 200 |  | [commonRideLocation](#commonridelocation) |
 
+### /demand.v2.s2s/rides/{ride_id}/payment
+---
+##### ***GET***
+**Summary:** returns the Online payment details
+NOT_FOUND - ride not found or PaymentFlow is ont online
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| ride_id | path |  | Yes | string |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 |  | [commonRidePayment](#commonridepayment) |
+
 ### /demand.v2.s2s/ridetracker/{ride_tracking_id}
 ---
 ##### ***GET***
@@ -295,17 +320,198 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 ### Models
 ---
 
+### CancellationInfoCancelReasonCategory
+
+ - UNKNOWN_CANCEL_REASON_CATEGORY: Unknown cancellation category.
+ - DRIVER_NO_SHOW: Passenger cancellation category.
+ - PRICE_CHANGED: Passenger cancellation category.
+ - ETA_CHANGED: Passenger cancellation category.
+ - UNSUITABLE_VEHICLE: Passenger cancellation category.
+ - DRIVER_BEHAVED_INAPPROPRIATELY: Passenger cancellation category.
+ - CHANGED_MY_PLANS: Passenger cancellation category.
+ - DRIVERS_UNAVAILABLE: Supplier cancellation category.
+ - PASSENGER_NO_SHOW: Supplier cancellation category.
+ - PASSENGER_REQUESTED_TO_CANCEL: Supplier cancellation category.
+ - VEHICLE_MALFUNCTION: Supplier cancellation category.
+ - HEAVY_TRAFFIC: Supplier cancellation category.
+ - OTHER_CANCEL_REASON_CATEGORY: Supplier or passenger cancellation category.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| CancellationInfoCancelReasonCategory | string |  - UNKNOWN_CANCEL_REASON_CATEGORY: Unknown cancellation category.
+ - DRIVER_NO_SHOW: Passenger cancellation category.
+ - PRICE_CHANGED: Passenger cancellation category.
+ - ETA_CHANGED: Passenger cancellation category.
+ - UNSUITABLE_VEHICLE: Passenger cancellation category.
+ - DRIVER_BEHAVED_INAPPROPRIATELY: Passenger cancellation category.
+ - CHANGED_MY_PLANS: Passenger cancellation category.
+ - DRIVERS_UNAVAILABLE: Supplier cancellation category.
+ - PASSENGER_NO_SHOW: Supplier cancellation category.
+ - PASSENGER_REQUESTED_TO_CANCEL: Supplier cancellation category.
+ - VEHICLE_MALFUNCTION: Supplier cancellation category.
+ - HEAVY_TRAFFIC: Supplier cancellation category.
+ - OTHER_CANCEL_REASON_CATEGORY: Supplier or passenger cancellation category. |  |
+
 ### CancellationInfoParty
 
  - UNKNOWN: The cancelling party is unknown.
- - DEMANDER: The client cancelled the ride.
+ - DEMANDER: The demander cancelled the ride (e.g. concierge).
  - SUPPLIER: The supplier cancelled the ride.
+ - PASSENGER: The passenger cancelled the ride.
+ - MARKETPLACE: MP cancelled the ride.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | CancellationInfoParty | string |  - UNKNOWN: The cancelling party is unknown.
- - DEMANDER: The client cancelled the ride.
- - SUPPLIER: The supplier cancelled the ride. |  |
+ - DEMANDER: The demander cancelled the ride (e.g. concierge).
+ - SUPPLIER: The supplier cancelled the ride.
+ - PASSENGER: The passenger cancelled the ride.
+ - MARKETPLACE: MP cancelled the ride. |  |
+
+### CancellationInfoStatusReason
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| CancellationInfoStatusReason | string |  |  |
+
+### FareFareItem
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| amount_in_cents | string (uint64) |  | No |
+| type | [FareFareItemType](#farefareitemtype) |  | No |
+
+### FareFareItemType
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| FareFareItemType | string |  |  |
+
+### PlacePlaceCategory
+
+ - RESTAURANT: An establishment that prepares and serves refreshments and prepared meals.
+ - COFFEE_TEA: An establishment that sells drinks, such as coffee and tea, as well as refreshments.
+ - NIGHTLIFE: An establishment that provides evening entertainment and usually serves alcoholic beverages.
+ - CINEMA: An establishment that shows movies through screen projection.
+ - CULTURE: An establishment where various types of performing arts are presented.
+ - GAMBLING_LOTTERY: An establishment that provides gambling entertainment.
+ - ATTRACTION: A designated area of special interest to tourists.
+ - MUSEUM: An establishment dedicated to the preservation and exhibition of artistic, historical, or scientific artifacts.
+ - RELIGIOUS_PLACE: An establishment of special religious significance or where religious services are held.
+ - WATER: A natural and geographical feature of the earth's surface that is covered with water, such as a lake, river, stream or ocean.
+ - MOUNTAIN: A natural and geographical feature that is higher than the surrounding land.
+ - UNDERSEA: Undersea attractions
+ - FOREST: A forest, heath or other vegetation
+ - GEOGRAPHICAL: Natural and geographical locations
+ - AIRPORT: A designated area that serves various aspects of aviation related sports, including gliders, recreational aircraft and model airplanes.
+ - PUBLIC_TRANSPORTATION: A facility for travelers who are travelling between stops on public transport.
+ - CARGO_TRANSPORTATION: A facility that handles some aspect of the transportation of cargo freight.
+ - REST_AREA: An establishment along a motorway (controlled access road) that provides restrooms and parking.
+ - HOTEL: A business that provides lodging or temporary living quarters.
+ - LODGE: A business that provides lodging to the public generally without room service.
+ - OUTDOORS: Public land preserved and maintained for recreational use.
+ - LEISURE: A park that contains rides and/or other entertainment which may be based on a central theme.
+ - CONVENIENCE_STORE: An establishment that sells groceries, candy, toiletries, soft drinks, tobacco products, newspapers and other products.
+ - SHOPPING_CENTER: A complex of businesses that are co-located and share common services.
+ - DEPARTMENT_STORE: A business that sells a wide variety of merchandise that is organized by product or service departments.
+ - FOOD_AND_DRINKS: A business that sells specialty products of a particular type of food or beverage.
+ - PHARMACY: A business that sells medications, toiletry items and other retail cosmetics.
+ - ELECTRONICS: A business that sells consumer electronics and electronic entertainment equipment.
+ - HARDWARE_HOUSE_GARDEN: A business that sells crafts, gardening, remodeling, or decorating items for the home.
+ - BOOKSTORE: A business that sells books, magazines and other reading material.
+ - CLOTHING_AND_ACCESSORIES: A business that sells apparel items, garments or fashion accessories for men, women, and children.
+ - STORE: A business that sells a variety of products targeted to consumers.
+ - HAIR_BEAUTY: A business that provides hair styling and personal appearance services. Places in this category may also sell hair products and other related cosmetic items.
+ - BANKING: Businesses that specialize in the maintenance, lending, exchange, or issuance of money.
+ - ATM: A computer terminal that allows bank customers to deposit, withdraw, or transfer funds without the assistance of a bank teller.
+ - MONEY_SERVICES: Businesses that provide money related services.
+ - MEDIA: Businesses that provide communication services.
+ - COMMERCIAL_SERVICES: Businesses that provide a service or product for use by other businesses.
+ - BUSINESS_INDUSTRY: Businesses that employ people in and around the city in which it is located.
+ - EMERGANCY_SERVICES: Municipal emergency services
+ - CONSUMER_SERVICES: An organization that provides consumer services for a variety of products for used by the public.
+ - POST_OFFICE: An office or station that receives, sorts, dispatches and delivers mail to a specific area or region.
+ - TOOURIST_INFORMATION: Businesses that provide a variety of information for visiting tourists, such as event schedules, lodging/accommodations, restaurants, attractions and more
+ - FEUL_STATION: Businesses that sell fuel for vehicles
+ - CAR_DEALER: Businesses that sell new automobiles and motorcycles.
+ - CAR_REPAIR: Businesses that provide automotive repair services.
+ - CAR_RENTAL: Businesses that rent or lease automobiles.
+ - TRUCK_SERVICES: Business that sell or service trucks and tractor trailers.
+ - HEALTH_CARE: Facilities that include dental offices, hospitals, nursing homes and other health care-related services.
+ - GOVERNMENT: A Place where government services are provided.
+ - EDUCATION: Facilities that are used for educational purposes including primary schooling, secondary schooling, universities and more.
+ - LIBRARY: Facilities that offer books, periodicals, audio, video and other material for public use.
+ - EVENTS: An area or facility used for the hosting of fairs and conventions.
+ - PARKING: Area or building used for parking cars
+ - SPORTS: A facility used for individual and team sports including recreational sports.
+ - FACILITIES: Facilities with miscellaneous uses such as Clubhouses, Offices, and Registration Offices.
+ - CITY: Represents a named settlement that may be a (large) city, town, or tiny village
+ - OUTDOORS_COMPLEX: Outdoor areas or complexes with designations for specific businesses or interests.
+ - BUILDING: Areas and buildings designated for residential or office use
+ - ADMINISTRATIVE_REGION: An administrative region, such as a postal area, or a named street/square/intersection.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| PlacePlaceCategory | string |  - RESTAURANT: An establishment that prepares and serves refreshments and prepared meals.
+ - COFFEE_TEA: An establishment that sells drinks, such as coffee and tea, as well as refreshments.
+ - NIGHTLIFE: An establishment that provides evening entertainment and usually serves alcoholic beverages.
+ - CINEMA: An establishment that shows movies through screen projection.
+ - CULTURE: An establishment where various types of performing arts are presented.
+ - GAMBLING_LOTTERY: An establishment that provides gambling entertainment.
+ - ATTRACTION: A designated area of special interest to tourists.
+ - MUSEUM: An establishment dedicated to the preservation and exhibition of artistic, historical, or scientific artifacts.
+ - RELIGIOUS_PLACE: An establishment of special religious significance or where religious services are held.
+ - WATER: A natural and geographical feature of the earth's surface that is covered with water, such as a lake, river, stream or ocean.
+ - MOUNTAIN: A natural and geographical feature that is higher than the surrounding land.
+ - UNDERSEA: Undersea attractions
+ - FOREST: A forest, heath or other vegetation
+ - GEOGRAPHICAL: Natural and geographical locations
+ - AIRPORT: A designated area that serves various aspects of aviation related sports, including gliders, recreational aircraft and model airplanes.
+ - PUBLIC_TRANSPORTATION: A facility for travelers who are travelling between stops on public transport.
+ - CARGO_TRANSPORTATION: A facility that handles some aspect of the transportation of cargo freight.
+ - REST_AREA: An establishment along a motorway (controlled access road) that provides restrooms and parking.
+ - HOTEL: A business that provides lodging or temporary living quarters.
+ - LODGE: A business that provides lodging to the public generally without room service.
+ - OUTDOORS: Public land preserved and maintained for recreational use.
+ - LEISURE: A park that contains rides and/or other entertainment which may be based on a central theme.
+ - CONVENIENCE_STORE: An establishment that sells groceries, candy, toiletries, soft drinks, tobacco products, newspapers and other products.
+ - SHOPPING_CENTER: A complex of businesses that are co-located and share common services.
+ - DEPARTMENT_STORE: A business that sells a wide variety of merchandise that is organized by product or service departments.
+ - FOOD_AND_DRINKS: A business that sells specialty products of a particular type of food or beverage.
+ - PHARMACY: A business that sells medications, toiletry items and other retail cosmetics.
+ - ELECTRONICS: A business that sells consumer electronics and electronic entertainment equipment.
+ - HARDWARE_HOUSE_GARDEN: A business that sells crafts, gardening, remodeling, or decorating items for the home.
+ - BOOKSTORE: A business that sells books, magazines and other reading material.
+ - CLOTHING_AND_ACCESSORIES: A business that sells apparel items, garments or fashion accessories for men, women, and children.
+ - STORE: A business that sells a variety of products targeted to consumers.
+ - HAIR_BEAUTY: A business that provides hair styling and personal appearance services. Places in this category may also sell hair products and other related cosmetic items.
+ - BANKING: Businesses that specialize in the maintenance, lending, exchange, or issuance of money.
+ - ATM: A computer terminal that allows bank customers to deposit, withdraw, or transfer funds without the assistance of a bank teller.
+ - MONEY_SERVICES: Businesses that provide money related services.
+ - MEDIA: Businesses that provide communication services.
+ - COMMERCIAL_SERVICES: Businesses that provide a service or product for use by other businesses.
+ - BUSINESS_INDUSTRY: Businesses that employ people in and around the city in which it is located.
+ - EMERGANCY_SERVICES: Municipal emergency services
+ - CONSUMER_SERVICES: An organization that provides consumer services for a variety of products for used by the public.
+ - POST_OFFICE: An office or station that receives, sorts, dispatches and delivers mail to a specific area or region.
+ - TOOURIST_INFORMATION: Businesses that provide a variety of information for visiting tourists, such as event schedules, lodging/accommodations, restaurants, attractions and more
+ - FEUL_STATION: Businesses that sell fuel for vehicles
+ - CAR_DEALER: Businesses that sell new automobiles and motorcycles.
+ - CAR_REPAIR: Businesses that provide automotive repair services.
+ - CAR_RENTAL: Businesses that rent or lease automobiles.
+ - TRUCK_SERVICES: Business that sell or service trucks and tractor trailers.
+ - HEALTH_CARE: Facilities that include dental offices, hospitals, nursing homes and other health care-related services.
+ - GOVERNMENT: A Place where government services are provided.
+ - EDUCATION: Facilities that are used for educational purposes including primary schooling, secondary schooling, universities and more.
+ - LIBRARY: Facilities that offer books, periodicals, audio, video and other material for public use.
+ - EVENTS: An area or facility used for the hosting of fairs and conventions.
+ - PARKING: Area or building used for parking cars
+ - SPORTS: A facility used for individual and team sports including recreational sports.
+ - FACILITIES: Facilities with miscellaneous uses such as Clubhouses, Offices, and Registration Offices.
+ - CITY: Represents a named settlement that may be a (large) city, town, or tiny village
+ - OUTDOORS_COMPLEX: Outdoor areas or complexes with designations for specific businesses or interests.
+ - BUILDING: Areas and buildings designated for residential or office use
+ - ADMINISTRATIVE_REGION: An administrative region, such as a postal area, or a named street/square/intersection. |  |
 
 ### PublicTransportRouteLegPublicTransportMode
 
@@ -435,6 +641,8 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | cancel_reason | string | The reason the ride was canceled (a free-text string). | No |
 | request_time_ms | string (uint64) | The time the cancellation was requested. | No |
 | status | [commonCancellationInfoStatus](#commoncancellationinfostatus) | The status of the cancellation request. | No |
+| cancel_reason_category | [CancellationInfoCancelReasonCategory](#cancellationinfocancelreasoncategory) | The cancellation reason cateory. | No |
+| status_reason | [CancellationInfoStatusReason](#cancellationinfostatusreason) | The reason for the cancellation status (e.g. why it was rejected). | No |
 
 ### commonCancellationInfoStatus
 
@@ -449,6 +657,32 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
  - PROCESSING: The cancellation request is being processed.
  - ACCEPTED: The cancellation request is accepted.
  - REJECTED: The cancellation request is rejected. |  |
+
+### commonCreditCard
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| last_4_digits | string |  | No |
+| brand | [commonCreditCardBrand](#commoncreditcardbrand) |  | No |
+| holder_name | string |  | No |
+
+### commonCreditCardBrand
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| commonCreditCardBrand | string |  |  |
+
+### commonDemandCancellingParty
+
+- UNKNOWN: The cancelling party is unknown.
+ - DEMANDER: The demander cancelled the ride (e.g. concierge).
+ - PASSENGER: The passenger cancelled the ride.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| commonDemandCancellingParty | string | - UNKNOWN: The cancelling party is unknown.
+ - DEMANDER: The demander cancelled the ride (e.g. concierge).
+ - PASSENGER: The passenger cancelled the ride. |  |
 
 ### commonDriverDetails
 
@@ -465,14 +699,88 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 | ---- | ---- | ----------- | -------- |
 | commonEmpty | object |  |  |
 
+### commonFare
+
+* here mobility fare. Required for generating receipts and invoices.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| items | [ [FareFareItem](#farefareitem) ] |  | No |
+| currency_code | string |  | No |
+
+### commonPassengerCancelReasonCategory
+
+- UNKNOWN_PASSENGER_CANCEL_REASON_CATEGORY: Unknown cancellation category.
+ - DRIVER_NO_SHOW: Driver did not show up.
+ - PRICE_CHANGED: Ride price changed.
+ - ETA_CHANGED: Ride ETA changed.
+ - UNSUITABLE_VEHICLE: Ride vehicle is not suitable.
+ - DRIVER_BEHAVED_INAPPROPRIATELY: Driver behaved inappropriately.
+ - CHANGED_MY_PLANS: Passenger changed plans.
+ - OTHER_PASSENGER_CANCEL_REASON_CATEGORY: Other.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| commonPassengerCancelReasonCategory | string | - UNKNOWN_PASSENGER_CANCEL_REASON_CATEGORY: Unknown cancellation category.
+ - DRIVER_NO_SHOW: Driver did not show up.
+ - PRICE_CHANGED: Ride price changed.
+ - ETA_CHANGED: Ride ETA changed.
+ - UNSUITABLE_VEHICLE: Ride vehicle is not suitable.
+ - DRIVER_BEHAVED_INAPPROPRIATELY: Driver behaved inappropriately.
+ - CHANGED_MY_PLANS: Passenger changed plans.
+ - OTHER_PASSENGER_CANCEL_REASON_CATEGORY: Other. |  |
+
 ### commonPassengerDetails
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | name | string | Mandatory. The passenger’s first and last name. | No |
-| phone_number | string | The passenger’s telephone number. | No |
+| phone_number | string | Mandatory. The passenger’s telephone number. | No |
 | photo_url | string | Optional. A URL pointing to the passenger’s photo. | No |
 | email | string | Optional. The passenger's email address. | No |
+
+### commonPayMethod
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| card | [commonCreditCard](#commoncreditcard) |  | No |
+| type | [commonPayMethodType](#commonpaymethodtype) |  | No |
+
+### commonPayMethodType
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| commonPayMethodType | string |  |  |
+
+### commonPaymentFlow
+
+- OFFLINE_PAYMENT: Offline flow
+ - ONLINE_PAYMENT: Online flow
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| commonPaymentFlow | string | - OFFLINE_PAYMENT: Offline flow
+ - ONLINE_PAYMENT: Online flow |  |
+
+### commonPaymentFlowFilter
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| commonPaymentFlowFilter | string |  |  |
+
+### commonPaymentFlowSet
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| offline_payment | boolean (boolean) |  | No |
+| online_payment | boolean (boolean) |  | No |
+
+### commonPlace
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| name | string | The place name. | No |
+| category | [PlacePlaceCategory](#placeplacecategory) | The place category (e.g.: Airport, Restaurant, Park, etc.). | No |
 
 ### commonPoint
 
@@ -560,6 +868,7 @@ NOTE: Once a ride reaches a terminal state, it cannot transition to any other st
 | price | [commonPrice](#commonprice) | Optional. The price of the ride updated by the supplier. | No |
 | app_id | string | Optional. The ID of the app. | No |
 | confirmed_pickup_point | [commonPoint](#commonpoint) | Optional. The ride confirmed pickup point calculated by Here-API. | No |
+| payment_flow | [commonPaymentFlow](#commonpaymentflow) | The payment flow in this ride. | No |
 
 ### commonRideLocation
 
@@ -569,13 +878,13 @@ NOTE: Once a ride reaches a terminal state, it cannot transition to any other st
 | ---- | ---- | ----------- | -------- |
 | ride_id | string | The ID of the ride. | No |
 | vehicle_location | [commonPoint](#commonpoint) | Optional. The current location of the vehicle. | No |
-| estimated_pickup_time_ms | string (uint64) | Optional. The estimated time of pickup, constantly updated until the vehicle is at the pickup location.
+| estimated_pickup_time_ms | string (uint64) | Optional. The estimated time (in epoch) of pickup, constantly updated until the vehicle is at the pickup location.
 This field will be deprecated soon, please use estimated_pickup_time_seconds instead. | No |
-| estimated_dropoff_time_ms | string (uint64) | Optional. The estimated time of drop-off, constantly updated until the vehicle is at the drop-off location.
+| estimated_dropoff_time_ms | string (uint64) | Optional. The estimated time (in epoch) of drop-off, constantly updated until the vehicle is at the drop-off location.
 This field will be deprecated soon, please use estimated_dropoff_time_seconds instead. | No |
 | last_update_time_ms | string (uint64) | The last time this entity is updated. Used for tracking updates. | No |
-| estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) | Pickup time estimate sent by the supplier. | No |
-| estimated_dropoff_time_seconds | [protobufUInt32Value](#protobufuint32value) | Drop-off time estimate sent by the supplier or calculated by Marketplace. | No |
+| estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) |  | No |
+| estimated_dropoff_time_seconds | [protobufUInt32Value](#protobufuint32value) |  | No |
 
 ### commonRideOffer
 
@@ -585,10 +894,10 @@ This field will be deprecated soon, please use estimated_dropoff_time_seconds in
 | ---- | ---- | ----------- | -------- |
 | offer_id | string | A unique offer ID. If this offer is chosen, the client sends this ID when calling CreateRide. | No |
 | supplier | [commonSupplier](#commonsupplier) | The supplier details. | No |
-| route | [commonRoute](#commonroute) | The ride route that the supplier suggests. | No |
-| estimated_pickup_time_ms | string (uint64) | Optional. Pickup time estimate sent by the supplier.
+| route | [commonRoute](#commonroute) | The ride route as confirmed by the marketplace and the supplier. | No |
+| estimated_pickup_time_ms | string (uint64) | Optional. Pickup time (in epoch) estimate sent by the supplier.
 NOTE: This field will be deprecated soon, please use estimated_pickup_time_seconds instead. | No |
-| estimated_dropoff_time_ms | string (uint64) | Optional. Drop-off time estimate sent by the supplier.
+| estimated_dropoff_time_ms | string (uint64) | Optional. Drop-off time (in epoch) estimate sent by the supplier.
 NOTE: This field will be deprecated soon, please use estimated_ride_duration_seconds instead. | No |
 | price_estimation | [commonPriceEstimate](#commonpriceestimate) | Optional. A price estimate for the ride. | No |
 | offer_expiration_time_ms | string (uint64) | The offer expiration time (in milliseconds from the time the offer is sent). | No |
@@ -598,10 +907,13 @@ NOTE: this field will be deprecated soon. Please use duration_seconds instead. |
 | transfers | long | Number of transport changes to reach the destination. | No |
 | legs | [ [commonPublicTransportRouteLeg](#commonpublictransportrouteleg) ] | A list of transportation legs for the route, if this offer is a public transportation offer. | No |
 | transit_type | [RideOfferTransitType](#rideoffertransittype) | Specifies the transit type of this offer. | No |
-| estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) | Optional. Pickup time estimate sent by the supplier. | No |
-| estimated_ride_duration_seconds | [protobufUInt32Value](#protobufuint32value) | Optional. Drop-off time estimate sent by the supplier or calculated by Marketplace.
-This is the time between pickup to dropoff. It does not contain the time to pickup. | No |
-| duration_seconds | string (uint64) | Duration of the route in seconds. | No |
+| estimated_pickup_time_seconds | [protobufUInt32Value](#protobufuint32value) |  | No |
+| estimated_ride_duration_seconds | [protobufUInt32Value](#protobufuint32value) | Optional. Estimated number of seconds between pickup and dropoff.
+NOTE: It does not include the time until pickup. | No |
+| duration_seconds | string (uint64) | Duration of the route in seconds.
+NOTE: this field will be deprecated soon. Please use estimated_ride_duration_seconds instead. | No |
+| supported_payment_flows | [commonPaymentFlowSet](#commonpaymentflowset) | Optional. Supported payment methods. | No |
+| requested_route | [commonRoute](#commonroute) | The ride route as the user requested. | No |
 
 ### commonRideOfferSortType
 
@@ -618,6 +930,22 @@ This is the time between pickup to dropoff. It does not contain the time to pick
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | offers | [ [commonRideOffer](#commonrideoffer) ] | A list of ride offers. | No |
+
+### commonRidePayment
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| ride_id | string |  | No |
+| status | [commonRidePaymentStatus](#commonridepaymentstatus) |  | No |
+| pay_method | [commonPayMethod](#commonpaymethod) |  | No |
+| final_price | [commonPrice](#commonprice) |  | No |
+| fare | [commonFare](#commonfare) |  | No |
+
+### commonRidePaymentStatus
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| commonRidePaymentStatus | string |  |  |
 
 ### commonRidePreferences
 
@@ -773,6 +1101,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | logo_url | string | Optional. A URL pointing to a logo image for the supplier. | No |
 | phone_number | string | The supplier’s telephone number. | No |
 | address | string | The supplier’s address. | No |
+| supplier_notes | [ string ] | The supplier's notes. | No |
 
 ### commonTransitOptions
 
@@ -781,6 +1110,13 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | max_transfers | integer | Optional. Maximum number of changes or transfers allowed in a route. Default is unlimited. Range is 0-6. | No |
 | max_walking_distance_meters | integer | Optional. Specifies a maximum walking distance in meters. Default is 2000. Range is 0-6000. | No |
 | locale | string | Optional. The client's locale. Complies with the ISO 639-1 standard and defaults to en. | No |
+
+### commonTransportTypePreference
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| use_taxi | boolean (boolean) |  | No |
+| use_public_transport | boolean (boolean) |  | No |
 
 ### commonVehicle
 
@@ -815,6 +1151,8 @@ The JSON representation for `UInt32Value` is JSON number.
 | ride_id | string | Mandatory. The unique ride ID. | No |
 | user_id | string | Optional. The ID of the requesting user. | No |
 | cancel_reason | string | Optional. Free text. The reason for the cancellation. | No |
+| cancel_reason_category | [commonPassengerCancelReasonCategory](#commonpassengercancelreasoncategory) | Optional. The category of the cancellation. | No |
+| cancelling_party | [commonDemandCancellingParty](#commondemandcancellingparty) | Optional. The party cancelling the ride - demander or passenger. Default is passenger. | No |
 
 ### s2sCancelTrackedRideRequest
 
@@ -823,6 +1161,7 @@ The JSON representation for `UInt32Value` is JSON number.
 | ride_tracking_id | string | Mandatory. The ID from the ride tracker url. | No |
 | passenger_phone | string | Mandatory. the passenger phone for validation purposes. | No |
 | cancel_reason | string | Optional. Free text. The reason for the cancellation. | No |
+| cancel_reason_category | [commonPassengerCancelReasonCategory](#commonpassengercancelreasoncategory) | Optional. The category of the cancellation. | No |
 
 ### s2sCreatePublicTransportRideRequest
 
@@ -843,6 +1182,7 @@ NOTE: this field is not yet supported. | No |
 | passenger | [commonPassengerDetails](#commonpassengerdetails) | Mandatory. The passenger details at the time of booking. | No |
 | subscribe_to_messages | boolean (boolean) | DEPRECATED. Please use the RidePreferences object to specify messaging preferences. | No |
 | preferences | [commonRidePreferences](#commonridepreferences) | Optional. Preferences for the ride. | No |
+| payment_ticket_id | string | Optional. Ticket to be used for online payment. | No |
 
 ### v2commonLocation
 
@@ -850,4 +1190,5 @@ NOTE: this field is not yet supported. | No |
 | ---- | ---- | ----------- | -------- |
 | point | [commonPoint](#commonpoint) | Geo-location (latitude and longitude). | No |
 | address | [commonAddress](#commonaddress) | Street address. | No |
-| free_text | string | Place name or street address in a free text format. | No |
+| free_text | string | Optional. Street address in a free text format. | No |
+| place | [commonPlace](#commonplace) | Optional. Place information of the location. | No |
