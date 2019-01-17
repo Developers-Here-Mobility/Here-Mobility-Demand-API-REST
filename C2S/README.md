@@ -61,6 +61,7 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 | payment_constraints | query | Optional. Parameters for supported payment flows. Default is SUPPORTS_OFFLINE. | No | string |
 | transport_type_preference.use_taxi | query |  | No | boolean (boolean) |
 | transport_type_preference.use_public_transport | query |  | No | boolean (boolean) |
+| locale | query | Optional. Indicates the language of passenger. Will be used to determine language of addresses and SMSs sent to demander. | No | string |
 
 **Responses**
 
@@ -776,7 +777,7 @@ NOTE: Once a ride reaches a terminal state, it cannot transition to any other st
 | ---- | ---- | ----------- | -------- |
 | user_id | string | The ID of the user who created this ride. | No |
 | ride_id | string | A unique ride id. | No |
-| route | [commonRoute](#commonroute) | The ride route. | No |
+| route | [commonRoute](#commonroute) | The ride route as confirmed by the marketplace and the supplier. | No |
 | prebook_pickup_time_ms | string (uint64) | Optional. For a pre-booked ride, contains the requested pickup time. | No |
 | booking_estimated_price | [commonPriceEstimate](#commonpriceestimate) | Optional. The estimated price at the time of booking. | No |
 | constraints | [commonBookingConstraints](#commonbookingconstraints) | Constraints defined at the time of booking, such as number of passengers and suitcases. | No |
@@ -791,8 +792,9 @@ NOTE: Once a ride reaches a terminal state, it cannot transition to any other st
 | cancellation_request_received_but_not_allowed | boolean (boolean) | When a cancellation occurs, this field value is TRUE if cancellation isn't allowed. | No |
 | price | [commonPrice](#commonprice) | Optional. The price of the ride updated by the supplier. | No |
 | app_id | string | Optional. The ID of the app. | No |
-| confirmed_pickup_point | [commonPoint](#commonpoint) | Optional. The ride confirmed pickup point calculated by Here-API. | No |
+| confirmed_pickup_point | [commonPoint](#commonpoint) |  | No |
 | payment_flow | [commonPaymentFlow](#commonpaymentflow) | The payment flow in this ride. | No |
+| requested_route | [commonRoute](#commonroute) | The ride route as the user requested. | No |
 
 ### commonRideLocation
 
@@ -876,6 +878,7 @@ NOTE: this field will be deprecated soon. Please use estimated_ride_duration_sec
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | subscribe_to_messages | boolean (boolean) | Optional. Specifies if messages about the ride will be sent to the passenger. Default is false. | No |
+| locale | string | Optional. Indicates the language of passenger. Will be used to determine language of addresses and SMSs sent to demander. | No |
 
 ### commonRideQuery
 
