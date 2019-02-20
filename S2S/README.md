@@ -58,11 +58,12 @@ INVALID_ARGUMENT: Invalid field value. For example: prebook_pickup_time is in th
 | passenger_note | query | Optional. A free text note from the passenger. | No | string |
 | transit_options.max_transfers | query | Optional. Maximum number of changes or transfers allowed in a route. Default is unlimited. Range is 0-6. | No | integer |
 | transit_options.max_walking_distance_meters | query | Optional. Specifies a maximum walking distance in meters. Default is 2000. Range is 0-6000. | No | integer |
-| transit_options.locale | query | Optional. The client's locale. Complies with the ISO 639-1 standard and defaults to en. | No | string |
+| transit_options.locale | query | DEPRECATED!! please use the locale found in RideOffersRequest. | No | string |
 | payment_constraints | query | Optional. Parameters for supported payment flows. Defualt is SUPPORTS_OFFLINE. | No | string |
 | transport_type_preference.use_taxi | query |  | No | boolean (boolean) |
 | transport_type_preference.use_public_transport | query |  | No | boolean (boolean) |
-| locale | query | Optional. Indicates the language of passenger. Will be used to determine language of addresses and SMSs sent to passenger. | No | string |
+| locale | query | Optional. Should indicates clients's locale. - ISO-639-1 standard language codes, defaults to "en". - ISO-3166-1-alpha-2 country codes - example: "en-US" (US is the ISO 3166‑1 country code for the United States) Based on IETF language tag best practice as specified by https://tools.ietf.org/html/rfc5646. | No | string |
+| max_number_of_offers.value | query | The uint32 value. | No | long |
 
 **Responses**
 
@@ -592,6 +593,26 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
  - ONGOING: Ongoing rides (all rides other than PAST and FUTURE). Default: in the past 3 hours.
  - ALL: All rides. |  |
 
+### RideStatusUpdateStatusReasonCode
+
+ - UNKNOWN_STATUS_REASON: no specific reason.
+ - REJECTED_PAYMENT_TECHNICAL_ERROR: technical error during payment.
+ - REJECTED_PAYMENT_REJECTED_PAY_METHOD: the bank rejected the pay method. Example - the credit card is expired.
+ - REJECTED_PAYMENT_REJECTED_TRANSACTION: the bank rejected the transaction for some reason.
+ - REJECTED_SUPPLIER_DECLINED: the supplier declined the request.
+ - REJECTED_OFFER_EXPIRED: the offer is expired.
+ - REJECTED_OTHER: rejected because of another technical reason.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| RideStatusUpdateStatusReasonCode | string |  - UNKNOWN_STATUS_REASON: no specific reason.
+ - REJECTED_PAYMENT_TECHNICAL_ERROR: technical error during payment.
+ - REJECTED_PAYMENT_REJECTED_PAY_METHOD: the bank rejected the pay method. Example - the credit card is expired.
+ - REJECTED_PAYMENT_REJECTED_TRANSACTION: the bank rejected the transaction for some reason.
+ - REJECTED_SUPPLIER_DECLINED: the supplier declined the request.
+ - REJECTED_OFFER_EXPIRED: the offer is expired.
+ - REJECTED_OTHER: rejected because of another technical reason. |  |
+
 ### VehicleVehicleType
 
  - STANDARD: Standard vehicle.
@@ -832,7 +853,8 @@ UNAUTHENTICATED: Validation failed for the given passenger phone number
 
 ### commonRide
 
-* A ride with a specific supplier. This entity contains relatively static info: driver, vehicle, passengers etc.
+*
+A ride with a specific supplier. This entity contains relatively static info: driver, vehicle, passengers etc.
 The more dynamic info of the ride, including its progress along the route, is in the entity Ride.
 
 Below is the lifecycle of the ride:
@@ -954,7 +976,7 @@ NOTE: this field will be deprecated soon. Please use estimated_ride_duration_sec
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | subscribe_to_messages | boolean (boolean) | Optional. Specifies if messages about the ride will be sent to the passenger. Default is false. | No |
-| locale | string | Optional. Indicates the language of passenger. Will be used to determine language of addresses and SMSs sent to demander. | No |
+| messages_locale | string |  | No |
 
 ### commonRideQuery
 
@@ -1035,6 +1057,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | is_ride_location_available | boolean (boolean) | If this value is TRUE, you can retrieve live updates on the ride’s location by calling GetRideLocation (during statuses DRIVER_ASSIGNED to COMPLETED). | No |
 | current_status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) | The ride’s current status. | No |
 | prev_statuses | [ [commonRideStatusUpdate](#commonridestatusupdate) ] | A list of previous ride statuses, ordered by their timestamp values. | No |
+| current_status_reason_code | [RideStatusUpdateStatusReasonCode](#ridestatusupdatestatusreasoncode) | the status reasons - describes WHY did we change the status to this one. | No |
 
 ### commonRideStatusUpdate
 
@@ -1044,6 +1067,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | ---- | ---- | ----------- | -------- |
 | status | [commonRideStatusUpdateStatus](#commonridestatusupdatestatus) | The new ride status. | No |
 | timestamp_ms | string (uint64) | The time the ride status changed (UNIX Epoch time in milliseconds). | No |
+| status_reason_code | [RideStatusUpdateStatusReasonCode](#ridestatusupdatestatusreasoncode) |  | No |
 
 ### commonRideStatusUpdateStatus
 
@@ -1080,12 +1104,18 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | ride_tracking_id | string | The ride tracking ID. | No |
-| status_log | [commonRideStatusLog](#commonridestatuslog) | The tracked ride ride status log. | No |
-| driver | [commonDriverDetails](#commondriverdetails) | The ride's driver details. | No |
-| vehicle | [commonVehicle](#commonvehicle) | The ride's vehicle details. | No |
-| supplier | [commonSupplier](#commonsupplier) | The ride's supplier details. | No |
+| status_log | [commonRideStatusLog](#commonridestatuslog) | The tracked ride ride status log.
+Note: this field will be deprectaed soon, please use the ride object instead. | No |
+| driver | [commonDriverDetails](#commondriverdetails) | The ride's driver details.
+Note: this field will be deprectaed soon, please use the ride object instead. | No |
+| vehicle | [commonVehicle](#commonvehicle) | The ride's vehicle details.
+Note: this field will be deprectaed soon, please use the ride object instead. | No |
+| supplier | [commonSupplier](#commonsupplier) | The ride's supplier details.
+Note: this field will be deprectaed soon, please use the ride object instead. | No |
 | location_and_eta | [commonRideLocation](#commonridelocation) | The ride's location and ETA. | No |
-| cancellation_info | [commonCancellationInfo](#commoncancellationinfo) | When cancellation occurs, this field contains information about the cancellation. | No |
+| cancellation_info | [commonCancellationInfo](#commoncancellationinfo) | When cancellation occurs, this field contains information about the cancellation.
+Note: this field will be deprectaed soon, please use the ride object instead. | No |
+| ride | [commonRide](#commonride) | The ride object. | No |
 
 ### commonRoute
 
@@ -1112,7 +1142,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | ---- | ---- | ----------- | -------- |
 | max_transfers | integer | Optional. Maximum number of changes or transfers allowed in a route. Default is unlimited. Range is 0-6. | No |
 | max_walking_distance_meters | integer | Optional. Specifies a maximum walking distance in meters. Default is 2000. Range is 0-6000. | No |
-| locale | string | Optional. The client's locale. Complies with the ISO 639-1 standard and defaults to en. | No |
+| locale | string |  | No |
 
 ### commonTransportTypePreference
 
@@ -1130,6 +1160,7 @@ This value is in UTC, in milliseconds since Epoch time. | No |
 | make | string | The vehicle make. | No |
 | model | string | The vehicle model. | No |
 | color | string | The vehicle color. | No |
+| vehicle_id | string | Optional. This number helps passenger identify the car as it appears on car "hat" (Sign) or written somewhere on the car. | No |
 
 ### commonVerticalsCoverageResponse
 
@@ -1162,7 +1193,8 @@ The JSON representation for `UInt32Value` is JSON number.
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | ride_tracking_id | string | Mandatory. The ID from the ride tracker url. | No |
-| passenger_phone | string | Mandatory. the passenger phone for validation purposes. | No |
+| passenger_phone | string | Mandatory. the passenger phone for validation purposes.
+Note: This field will be deprecated soon. | No |
 | cancel_reason | string | Optional. Free text. The reason for the cancellation. | No |
 | cancel_reason_category | [commonPassengerCancelReasonCategory](#commonpassengercancelreasoncategory) | Optional. The category of the cancellation. | No |
 
